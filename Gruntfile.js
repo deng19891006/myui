@@ -14,7 +14,7 @@ module.exports = function(grunt) {
           // the location of the resulting JS file
           dest: 'dist/<%= pkg.name %>.js'
         }
-      },
+      }
   });
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.registerTask('default', ['concat']);

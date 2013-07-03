@@ -1,0 +1,32 @@
+
+/*myui-block*/
+	.myui-dblock{display: block;}
+/* loading */
+	.myui-loading{ width: 100%; background: transparent; background:url(../images/loading.gif) center center no-repeat; padding: 30px 0;}
+/* grid */
+	.myui-grid-wraper{position: relative;border: 1px solid #ccc;  }
+	.myui-grid{width:100%; font-size:12px; border-collapse:collapse; border-spacing: 0; border:none;}
+	.myui-grid thead tr td{ border:1px solid #CCC; padding:5px 8px; text-align:center; color:#909090; background:#eee;box-shadow: 0 1px 0px #fff inset; border-bottom:1px solid #CCC}
+	.myui-grid tbody .myui-loading{position: absolute;; top:0; left: 0;}
+	.myui-grid tbody .myui-grid tbody tr td{ border-left:1px solid #CCC; padding:6px 8px; text-align:center;}
+	.myui-grid tbody tr:nth-child(even){ background:#f2f2f2}
+	.myui-grid tbody tr:nth-child(odd){ background:#F7F7F7}
+	.myui-grid tbody tr td{border:1px solid #CCC;box-shadow: 0 1px 0px #fff inset; padding:5px 8px;}
+	.myui-grid-bottompanel{  padding:5px; font-size:12px; position:relative; }
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{}
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{} .myui-grid-pagelist{ display:inline-block; *display:inline; *zoom:1;font-family: 'Segoe UI Semilight', 'Open Sans', Verdana, Arial, Helvetica, sans-serif; margin-right:10px; vertical-align:middle;}
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{} .myui-grid-pagelist span{display:inline-block; *display:inline; *zoom:1; padding:2px 5px; border-radius:2px; background:#e1e1e1; margin-right:4px;}
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{} .myui-grid-pagelist span:hover{background:#CCC; cursor:pointer}
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{} .myui-grid-pagelist span.myui-grid-pagelist-num{}
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{} .myui-grid-pagelist span.myui-grid-pagelist-curr{ background:#e4e4e4; color:#bbb!important; font-weight:bold; cursor:default;} 
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{} .myui-grid-pagelist span.myui-grid-pagelist-disabled{ background:#e4e4e4; color:#aaa; cursor:default;}
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{} .myui-grid-pagelist span.myui-grid-pagelist-space{background:none; }
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{} .myui-grid-goto{ margin-right:10px;}
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{}  select{ border-radius: 2px; border-color: #bbb}
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{} .myui-grid-goto select.goto{ width:auto!important; margin:0; padding:0; height:auto!important; vertical-align:middle;}
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{} .myui-grid-goto span{ vertical-align:middle}
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{} .myui-grid-count{ margin-right:10px;}
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{} .myui-grid-count select.goto{ width:auto!important; margin:0; padding:0; height:auto!important; vertical-align:middle;}
+	.myui-grid-bottompanel .myui-grid-bottompanel-left{} .myui-grid-count span{vertical-align:middle}
+	.myui-grid-bottompanel .myui-grid-bottompanel-right{ position:absolute; top:0; right:0; line-height:30px; padding-right:10px}
+	.myui-grid-befroeSucc{ position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; padding: 30px 0; z-index:100 }
