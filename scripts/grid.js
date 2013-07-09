@@ -55,7 +55,7 @@ define(function(require, exports, module) {
   };
 
   //初始化入口
-  grid.prototype.init = function(){
+  grid.prototype.init = function(func){
   	 var _tablestr = ['<table  class="myui-grid"><thead><tr>','</tr></thead><tbody></tbody></table>'],
   	 	 _columns = new Array();
   	 for(var i =0; i < this.options.fileds.length; i++){
@@ -69,9 +69,9 @@ define(function(require, exports, module) {
   	 this.header = this.gridwrap.firstChild.tHead;
   	 this.tbody = this.gridwrap.firstChild.tBodies[0];
   	 this.pagesize = this.options.pagesize;
+     this.element.appendChild(this.gridwrap);
      this.loadData.call(this);
      this.pagerEventlistener.call(this);
-     this.element.appendChild(this.gridwrap);
   };
 
   //loadData
@@ -126,7 +126,12 @@ define(function(require, exports, module) {
 
   //beforeSend状态
   grid.prototype.beforeRemote = function(){
-    this.tbody.clientHeight < 60 ? this.gridwrap.style.height = '100px':'';
+    var _this = this;
+    if(window.innerWidth < 480){
+      _this.gridwrap.clientHeight  = _this.header.clientHeight;
+    }else{
+      this.tbody.clientHeight < 60 ? this.gridwrap.style.height = '100px':'';
+    }
     if(!this.beforeRemoteWraper){
       var _beforeRemoteWraper = document.createElement("div"),
           _loading = document.createElement("div");
@@ -170,8 +175,6 @@ define(function(require, exports, module) {
         _pagelistnum="",
         _rangenum="";
         _pagedom.className = "myui-grid-bottompanel",
-        
-        
     this.total = total;
     this.pagenum =total%pagesize>0?parseInt(total/pagesize)+1:total/pagesize;
     var _prenum = currpagenum>1?currpagenum-1:1,
@@ -199,12 +202,10 @@ define(function(require, exports, module) {
                           '<span>转到：</span><select class="goto">'+_pagelistnum+'</select>',
                       '</span>',
                       '<span class="myui-grid-count">',
-                          '<span class="myui-grid-count">',
                             '<span>每页：</span><select class="goto">',
                             '<option '+(this.pagesize===10?' selected':'')+'>10</option>',
                             '<option '+(this.pagesize===20?' selected':'')+'>20</option>',
                             '<option '+(this.pagesize===50?' selected':'')+'>50</option></select>',
-                         '</span>',
                       '</span>',
                     '</div>',
                    '<span class="myui-grid-bottompanel-right">',

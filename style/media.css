@@ -1,0 +1,29 @@
+
+/*浏览器分辨率 < 980px */
+@media screen and (max-width:480px){
+   /*grid*/   
+   .myui-grid{ display:block; width:100%; position:relative;}
+   .myui-grid thead { float:left; display:block; position:relative;}
+   .myui-grid thead tr{ display:block;  }
+   .myui-grid thead tr td{ display:block; padding:5px 8px; border-left:none; text-align:right; border-right: 1px solid #ccc}
+   .myui-grid tbody{
+		display: block;
+		width: auto;
+		position: relative;
+		overflow-x: auto;
+		overflow-y: scroll;
+		white-space: nowrap;
+		font-size:0px;
+   }
+   .myui-grid tbody tr{
+	   display:inline-block;
+	   font-size:12px;
+   }
+   .myui-grid tbody tr td{ display:block;border-left:none; border-top: none; }
+   .myui-grid tbody tr td{}
+   .myui-grid-bottompanel .myui-grid-bottompanel-left{ float:none; width: 100%}
+   .myui-grid-bottompanel .myui-grid-bottompanel-left span.myui-grid-pagelist{ display: block; height: 20px}
+   .myui-grid-bottompanel .myui-grid-bottompanel-left span.myui-grid-goto{ display: inline-block; margin: 5px 10px 0 0;}
+   .myui-grid-bottompanel .myui-grid-bottompanel-left span.myui-grid-count{ display: inline-block; margin:5px 0px;}
+   .myui-grid-bottompanel .myui-grid-bottompanel-right{ position:relative; display: inline-block; top: 0px; line-height: 20px;}
+}
