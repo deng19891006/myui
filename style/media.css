@@ -1,5 +1,5 @@
 
-/*浏览器分辨率 < 980px */
+/*浏览器分辨率 < 480px */
 @media screen and (max-width:480px){
    /*grid*/   
    .myui-grid{ display:block; width:100%; position:relative;}

@@ -16,9 +16,9 @@
 		    'jquery': 'lib/jquery-1.10.1.min.js'
 		}
 	});
-	seajs.use(["grid","jquery"],function(_grid,$){
+	seajs.use(["module/grid","jquery"],function(_grid,$){
 		$(function(){
-			new _grid.grid({element:"griddemo",
+			  _grid.grid({element:"griddemo",
 							fileds:[
 						    	{label:"#",field:"index"},
 								{label:"name",field:"name"},
@@ -29,7 +29,7 @@
 								{label:"education",field:"education"},	
 								{label:"about",field:"about"}
 							],
-							datasource:"../scripts/datasource/tabletestdata.json",
+							datasource:"../datasource/tabletestdata.json",
 							pagesize:20
 						});
 		})
