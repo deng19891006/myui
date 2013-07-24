@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../style/base.css">
+	<link rel="stylesheet" href="../style/ui.css">
+	<link rel="stylesheet" href="../style/media.css">
+</head>
+ <style>
+	#test{display: none; width: 600px; height: 100px}
+ </style>
+<body  >
+
+<!-- <div class="myui-dialog-mask"></div>
+<div style="width: 200px; height: 300px; position: absolute; top:1">
+	<div class="myui-dialog">
+		<div class="myui-dialog-con">
+		 this is a test;
+		</div>
+	</div>
+</div> -->
+<!-- <iframe src="test.html" frameborder="0" marginheight="0px" marginwidth="0px" noresize="yes"   height="auto" scrolling="auto" id="test2" width="150"></iframe> 
+ --><div style="height:2000px"></div>
+<div id="test" class="test">
+	<h2> 你好 </h2>
+	<p> this is an test element dialog ?? </p>
+
+</div>
+<script src="../scripts/seajs/sea.js" id="seajsnode"></script>
+<script type="text/javascript">
+	seajs.config({
+		alias: {
+		    'jquery': 'lib/jquery-1.10.1.min.js'
+		}
+	});
+	seajs.use(["module/dialog","jquery"],function(dialog,$){
+		$(function(){
+			 // totopbutton()
+			//dialog({'contentLink':'test.html'});
+			dialog({'contentElement':'test'});
+		})
+        
+			// setTimeout(function(){
+			// 	var iframeDomDocument = document.getElementById("test2").contentDocument || document.getElementById("test2").contentWindow.document;
+			// 	console.log(iframeDomDocument.body.scrollWidth)
+			// },3000);
+	 
+	});
+</script>
+</body>
+</html>

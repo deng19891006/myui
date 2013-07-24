@@ -1,4 +1,5 @@
 
+*{margin:0;  }
 /* -----myui easy class-----*/
 	.myui-dblock{display: block;}
 	.myui-nb{border:none;}
@@ -45,4 +46,11 @@
 				 visibility:hidden;}
 	.myui-totop:hover{ opacity: 1;}
  
- 
+ /* dialog */
+ 	.myui-dialog-wraper{ position: fixed; _position: absolute;}
+ 	.myui-dialog{ padding:5px; background:#000; filter:alpha(opacity=20); background:rgba(0,0,0,0.4); border-radius: 5px;zoom:1; _float: left;}
+ 	.myui-dialog .myui-dialog-con{ background: #fff; border-radius: 5px;padding:5px; position: relative;}
+ 	.myui-dialog *{ position: relative;}
+ 	.myui-dialog-mask{width:100%; height:1000px; background:#000; background:rgba(0,0,0,0.1); filter:Alpha(opacity=20); position: absolute; top:0; left: 0;}
+ 	.myui-dialog-close{position: absolute; top:-14px; right: -14px;_right:-10px; display: inline-block; width: 24px; height: 24px; background:url(../images/close.png) center center no-repeat; _background:url(../images/close_ie6.png) center center no-repeat;cursor: pointer; z-index: 1; -webkit-transition:all 0.2s  ease-in-out;}
+ 	.myui-dialog-close:hover{ -webkit-transform: rotate(180deg)}

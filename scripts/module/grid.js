@@ -1,4 +1,5 @@
 /*
+@desc：响应式表格
 @argument:
 	@title 		//表格title
 	@fileds		//表头配置
@@ -284,7 +285,7 @@ define(function(require, exports, module) {
               '<span class="myui-grid-rangenum">',_rangenum,'</span>',
               '<span class="myui-grid-totalnum">   总数:',this.total,'</span>',
              '</span>'].join("");
-      _pagedom.innerHTML = _pageliststr.join("");
+      _pagedom.innerHTML = _pageliststr;
       return _pagedom;
     }   
   }

@@ -1,5 +1,5 @@
 /*
- *desc:页面的totop按钮
+ *@desc:页面的totop按钮
  */
 define(function(require,exports,module){
 	
