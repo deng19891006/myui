@@ -1,0 +1,8 @@
+/* totopbtn*/
+	.myui-totop{ background: #752672; font-size: 12px; padding: 10px; line-height: 10px; right: 2%; opacity: 0.8; border-radius: 2px; cursor: pointer; _bottom:auto; 
+				-webkit-transition:all 0.2s ease-in-out;
+				   -moz-transition:all 0.2s ease-in-out;
+				     -o-transition:all 0.2s ease-in-out;
+				     	transition:all 0.2s ease-in-out;
+				 visibility:hidden;}
+	.myui-totop:hover{ opacity: 1;}

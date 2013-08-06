@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../base/style/base.css">
+	<link rel="stylesheet" href="style/css.css">
+</head>
+ 
+ 
+<body>
+<div id="griddemo" style="height:3000px;"></div>
+<iframe></iframe>
+<script src="../../lib/seajs/sea.js" id="seajsnode"></script>
+<script type="text/javascript">
+	seajs.config({
+		base:"../../lib/",
+		alias: {
+		    'jquery': 'jquery-1.10.1.min.js',
+		    'util': 'util.js'
+		}
+	});
+	seajs.use(["./js/totopbutton","jquery"],function(totopbutton,$){
+		$(function(){
+			  totopbutton()
+		})
+	});
+</script>
+</body>
+</html>

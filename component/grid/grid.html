@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../base/style/base.css">
+	<link rel="stylesheet" href="style/css.css">
+</head>
+<body>
+<div id="griddemo"></div>
+<script src="../../core/seajs/sea.js" id="seajsnode"></script>
+<script type="text/javascript">
+	seajs.config({
+		alias: {
+		    'jquery': 'jquery-1.10.1.min.js'
+		}
+	});
+	seajs.use(["./js/grid","jquery"],function(_grid,$){
+		$(function(){
+			  _grid.grid({element:"griddemo",
+							fileds:[
+						    	{label:"#",field:"index"},
+								{label:"name",field:"name"},
+								{label:"address",field:"address"},
+								{label:"gender",field:"gender"},
+								{label:"cityId",field:"cityId"},
+								{label:"birthDate",field:"birthDate"},
+								{label:"education",field:"education"},	
+								{label:"about",field:"about"}
+							],
+							datasource:"tabletestdata.json",
+							pagesize:10
+						});
+		})
+	});
+</script>
+</body>
+</html>
