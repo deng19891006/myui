@@ -8,11 +8,13 @@
 </head>
 <body>
 <div id="griddemo"></div>
-<script src="../../core/seajs/sea.js" id="seajsnode"></script>
+<script src="../../lib/seajs/sea.js" id="seajsnode"></script>
 <script type="text/javascript">
 	seajs.config({
+		base:"../../lib/",
 		alias: {
-		    'jquery': 'jquery-1.10.1.min.js'
+		    'jquery': 'jquery-1.10.1.min.js',
+		    'util': 'util.js'
 		}
 	});
 	seajs.use(["./js/grid","jquery"],function(_grid,$){
