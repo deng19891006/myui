@@ -1,7 +1,21 @@
 *{margin:0;  }
+
+.clearfix:before,.clearfix:after {
+   content:"";
+   display:table;
+}
+.clearfix:after {
+   clear:both;
+   overflow:hidden;
+}
+.clearfix {
+   *zoom:1; /* IE < 8 */
+}
+
 /* -----myui easy class-----*/
 	.myui-dblock{display: block;}
 	.myui-nb{border:none;}
 	.myui-dis-ib{ display: inline-block; *zoom:1; *display: inline;}
 	.myui-loading{ width: 100%; background: transparent; background:url(../images/loading.gif) center center no-repeat; padding: 30px 0;}
 	.myui-icon-close{ background:url(../images/close.png) center center no-repeat; _background:url(../images/close_ie6.png) center center no-repeat;}
+    

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../base/style/base.css">
+	<link rel="stylesheet" href="style/css.css">
+</head>
+ 
+ 
+<body>
+ 
+ 
+
+<div id="wrapper" style="margin:100px 100px;">
+	Tight pants next level keffiyeh <a href="#" title="Tooltips hello world.">you probably</a> haven't heard of them. Photo booth beard raw denim letterpress vegan messenger bag stumptown. Farm-to-table seitan, mcsweeney's fixie sustainable quinoa 8-bit american apparel <a href="#" title="Tofu biodiesel williamsburg marfa Farm-to-table seitan">have a</a> terry richardson vinyl chambray. 
+</div>
+
+<script src="../../lib/seajs/sea.js" id="seajsnode"></script>
+<script type="text/javascript">
+	seajs.config({
+		base:"../../lib/",
+		alias: {
+		    'jquery': 'jquery-1.10.1.min.js',
+		    'util': 'util.js'
+		}
+	});
+	seajs.use(["./js/tip","jquery"],function(index_tip,$){
+		$(function(){
+			var tip = index_tip.tip({
+				element:"#wrapper a",
+				direction:'top'});   
+			setTimeout(function(){
+				tip.destory();
+			}, 3000)
+		})
+	});
+</script>
+</body>
+</html>
