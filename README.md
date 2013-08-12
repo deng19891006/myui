@@ -4,10 +4,10 @@ Myui
  基于CMD模式的javascript组件库
 
 ## 已有组件
- - grids响应式表格
- - totopbtn按钮嵌入
- - dialog
- - ...
+ - grid			响应式表格
+ - totopbutton	按钮嵌入
+ - dialog		弹出窗口
+ - tip 			提示信息
 
 ## 说明
 it is developmenting
