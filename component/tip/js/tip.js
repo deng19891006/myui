@@ -74,7 +74,9 @@
 
 		close : function (options , e){
 			var relatedTip = $(e).data( "relatedTip" );
-			docu.body.removeChild(relatedTip)
+			if(relatedTip.parentNode){
+				docu.body.removeChild(relatedTip)
+			}
 		},
 
 		initPosition : function(options , e , newTipOff){
