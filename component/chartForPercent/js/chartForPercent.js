@@ -81,13 +81,20 @@ define(function(require,exports,module){
 		renderChart : function ( options ,_chart ){
 				var _chart_cxt = _chart.getContext("2d"),
 					_arcR = ( options.width - options.outerWidth*2 )/2 + options.outerWidth/2,
-					_timer , _angleRange , _easing = 1.5 , _preEasying  ;
+					_timer , _angleRange , _easing = 1.5 , _preEasying;
 
+				//begin fill text 
+				_chart_cxt.font = options.fontsize+"px 微软雅黑";
+				var textWidth = _chart_cxt.measureText(options.value + "%").width,
+					textfont = _chart_cxt.font;
+				_chart_cxt.fillText(options.value + "%" , (options.width - textWidth)/2 , (options.width+parseInt(options.fontsize-4))/2 , options.width-options.outerWidth*2);
+	
 				//begin draw percent arc 
 				_chart_cxt.beginPath();
 	   			_chart_cxt.lineWidth = options.outerWidth;
 				_chart_cxt.strokeStyle = options.valueColor;
-
+				_chart_cxt.globalCompositeOperation = 'source-atop';
+				_chart_cxt.globalAlpha=1;
 				_angleRange =  parseInt( options.direction ? 1.5 - options.value/50 : options.value/50 - 0.5 ); 
 				_timer = setInterval(function(){
 					_easing = parseFloat( ( _easing - 0.1 ).toFixed(1) );
@@ -100,11 +107,6 @@ define(function(require,exports,module){
 					_chart_cxt.stroke();
 				} , 25)
 
-				//begin fill text 
-				_chart_cxt.font = options.fontsize+"px 微软雅黑";
-				var textWidth = _chart_cxt.measureText(options.value + "%").width,
-					textfont = _chart_cxt.font;
-				_chart_cxt.fillText(options.value + "%" , (options.width - textWidth)/2 , (options.width+parseInt(options.fontsize-4))/2 , options.width-options.outerWidth*2);
 		}
 	}
 
