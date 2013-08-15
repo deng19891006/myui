@@ -18,7 +18,7 @@ define(function(require,exports,module){
 			textColor : "#F14E07" ,     	//文本颜色
 			valueColor : "#F14E07" ,		//实际占比条颜色
 			direction : true ,          	//百分比所占区域方向,ture:逆时针 || false:顺时针
-			fontsize : "12" 	//字体样式
+			fontsize : "12" 				//字体样式
 	}
 
 	var chartForPercent = function( options ){
@@ -55,7 +55,6 @@ define(function(require,exports,module){
 					_arcR = ( options.width - options.outerWidth*2 )/2 + options.outerWidth/2;
 				//begin draw outer circle 
 				_chart_cxt.beginPath();
-				
 	            _chart_cxt.lineWidth = options.outerWidth;
 				_chart_cxt.strokeStyle = options.outerColor;
 				_chart_cxt.arc( options.width/2 , options.width/2 , _arcR , 0 , 2*Math.PI , false);	 
@@ -88,20 +87,30 @@ define(function(require,exports,module){
 				var textWidth = _chart_cxt.measureText(options.value + "%").width,
 					textfont = _chart_cxt.font;
 				_chart_cxt.fillText(options.value + "%" , (options.width - textWidth)/2 , (options.width+parseInt(options.fontsize-4))/2 , options.width-options.outerWidth*2);
-	
+				// _chart_cxt.clearRect((options.width - textWidth)/2-4, (options.width - parseInt(options.fontsize-4))/2-4 , textWidth+5, parseInt(options.fontsize-4)+5);
+
 				//begin draw percent arc 
 				_chart_cxt.beginPath();
 	   			_chart_cxt.lineWidth = options.outerWidth;
 				_chart_cxt.strokeStyle = options.valueColor;
-				_chart_cxt.globalCompositeOperation = 'source-atop';
-				_chart_cxt.globalAlpha=1;
-				_angleRange =  parseInt( options.direction ? 1.5 - options.value/50 : options.value/50 - 0.5 ); 
+				_chart_cxt.globalCompositeOperation = 'source-atop'; // add Antialias 
+				_angleRange = options.value===100 || options.value===0 ? 1.5 : parseFloat(options.direction ? (1.5 - options.value/50).toFixed(2) : (options.value/50 - 0.5).toFixed(1) ); 
+				console.log(_angleRange);
 				_timer = setInterval(function(){
-					_easing = parseFloat( ( _easing - 0.1 ).toFixed(1) );
-					_preEasying = parseFloat( ( _easing + 0.1 ).toFixed(1) );
-					console.log( _easing +" "+ _preEasying);
-					if( _easing <= _angleRange ){
+					if(options.value === 0){
 						clearInterval(_timer);
+					}else{
+						if(options.direction){
+							_easing = parseFloat( ( _easing - 0.1 ).toFixed(1) );
+							_preEasying = parseFloat( ( _easing + 0.1 ).toFixed(1) );
+							
+						}else{
+							_easing = parseFloat( ((_easing+0.1)>=2 ? 0 : (_easing+0.1) ).toFixed(1) );
+							_preEasying = parseFloat( ((_easing+0.1)>=2.1 ? _easing+0.1 : _easing-0.1  ).toFixed(1) );
+						}
+						if( _easing == _angleRange){
+								clearInterval(_timer);
+						}
 					}
 					_chart_cxt.arc( options.width/2 , options.width/2  , _arcR , _preEasying*Math.PI , _easing*Math.PI , options.direction);	
 					_chart_cxt.stroke();
