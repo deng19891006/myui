@@ -8,6 +8,7 @@ Myui
  - totopbutton - 按钮嵌入
  - dialog - 弹出窗口
  - tip - 提示信息
+ - chartForPercent - 百分比仪表
  - ......
 
 ## 说明
