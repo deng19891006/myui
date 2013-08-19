@@ -66,23 +66,57 @@ define(function(require,exports,module){
 		renderChart : function ( options , context , from , value , direction , valueColor , _self){
 			var _chart_cxt = context.getContext("2d"),
 				_arcR = ( options.width - options.outerWidth*2 )/2 + options.outerWidth/2,
-				_timer , _angleRange , _easing = from , _preEasying;
-
+				_currValue = value,
+				_timer , 
+				_angleRange , 
+				_easing = from , 
+				_preEasying , 
+				_span;
+				
+			if(value !== options.value){
+				value = Math.abs(value - options.value);
+			}
+			
 			//begin fill text 
-			_chart_cxt.font = options.fontsize+"px 微软雅黑";
-			var textWidth = _chart_cxt.measureText(value + "%").width,
-				textfont = _chart_cxt.font;
-			_chart_cxt.fillText(value + "%" , (options.width - textWidth)/2 , (options.width+parseInt(options.fontsize-4))/2 , options.width-options.outerWidth*2);
-			// _chart_cxt.clearRect((options.width - textWidth)/2-4, (options.width - parseInt(options.fontsize-4))/2-4 , textWidth+5, parseInt(options.fontsize-4)+5);
+			// _chart_cxt.font = options.fontsize+"px 微软雅黑";
+			// var textWidth = _chart_cxt.measureText(value + "%").width,
+			// 	textfont = _chart_cxt.font;
+			// 	console.log(_chart_cxt.measureText(value + "%"))
+			// _chart_cxt.fillText(value + "%" , (options.width - textWidth)/2 , (options.width+parseInt(options.fontsize-4))/2 , options.width-options.outerWidth*2);
+			
+			if(_self.lastChild && _self.lastChild.nodeName==="SPAN"){
+				_span = _self.lastChild;
+				_span.innerHTML = _currValue+"%";
+			}else{
+			    _span = docu.createElement('span') , _spanStyle = _span.style ;
+				_spanStyle.display = "block";
+				_spanStyle.position = "absolute";
+				_spanStyle.width = options.width+"px";
+				_spanStyle.fontSize = options.fontsize+"px";
+				_spanStyle.fontFamily = "微软雅黑";
+				_spanStyle.textAlign = "center";
+				// _spanStyle.backgroundColor = "#ccc";
+				_self.appendChild(_span);
+				_span.innerHTML = _currValue+"%";
+				_spanStyle.top = (options.width-_span.offsetHeight)/2+"px";
+			}
+			
 
 			//begin draw percent arc 
 			_chart_cxt.beginPath();
    			_chart_cxt.lineWidth = options.outerWidth;
 			_chart_cxt.strokeStyle = valueColor;
 			_chart_cxt.globalCompositeOperation = 'source-atop'; // add Antialias 
-			console.log( (from + value/50).toFixed(1));
-			_angleRange = value===100 || value===0 ? from : parseFloat( direction ? ((from - value/50).toFixed(1)) : ( value < 25 ? (from + value/50).toFixed(1) : (from + value/50-2).toFixed(1) ) ); 
+			if(value === 100 || value === 0){
+				_angleRange = from ;
+			}else if(direction === true){
+				_angleRange = ((from - value/50) < 0 ? (from - value/50)+2 : (from - value/50)).toFixed(1);
+			}else if(direction === false){
+				_angleRange = (from + value/50).toFixed(1) >= 2 ? (from + value/50 -2).toFixed(1) : (from + value/50).toFixed(1);
+			}
+
 			_self.setAttribute("PI", _angleRange);
+			// console.log(from + " " +value+" "+_angleRange)
 
 			_timer = setInterval(function(){
 
@@ -90,8 +124,8 @@ define(function(require,exports,module){
 					clearInterval(_timer);
 				}else{
 					if(direction){
-						_easing = parseFloat( ( _easing - 0.1 ).toFixed(1) );
-						_preEasying = parseFloat( ( _easing + 0.1 ).toFixed(1) );
+						_easing = parseFloat( ( (_easing - 0.1) < 0 ?(_easing - 0.1 + 2) : (_easing - 0.1) ).toFixed(1) );
+						_preEasying = parseFloat( ( (_easing + 0.1) < 0.1 ? (_easing + 0.1 +2) : (_easing + 0.1) ).toFixed(1) );
 					}else{
 						_easing = parseFloat( ((_easing+0.1)>=2 ? 0 : (_easing+0.1) ).toFixed(1) );
 						_preEasying = parseFloat( ((_easing+0.1)>=2.1 ? _easing+0.1 : _easing-0.1  ).toFixed(1) );
@@ -131,7 +165,7 @@ define(function(require,exports,module){
 			}
 			if( value !== _oValue){
 				_color =  value > _oValue ? __o__.valueColor : __o__.outerColor ;
-				cFP.renderChart( __o__ , this.childNodes[0] , _oPI , Math.abs(value-_oValue) , value > _oValue ? __o__.direction : !__o__.direction , _color , v);
+				cFP.renderChart( __o__ , this.childNodes[0] , _oPI ,  value , value > _oValue ? __o__.direction : !__o__.direction , _color , v);
 			}
 		});
 	}
