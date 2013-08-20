@@ -127,8 +127,8 @@ define(function(require,exports,module){
 						_easing = parseFloat( ( (_easing - 0.1) < 0 ?(_easing - 0.1 + 2) : (_easing - 0.1) ).toFixed(1) );
 						_preEasying = parseFloat( ( (_easing + 0.1) < 0.1 ? (_easing + 0.1 +2) : (_easing + 0.1) ).toFixed(1) );
 					}else{
-						_easing = parseFloat( ((_easing+0.1)>=2 ? 0 : (_easing+0.1) ).toFixed(1) );
-						_preEasying = parseFloat( ((_easing+0.1)>=2.1 ? _easing+0.1 : _easing-0.1  ).toFixed(1) );
+						_easing = parseFloat( ( (_easing+0.1)>=2 ? 0 : (_easing+0.1) ).toFixed(1) );
+						_preEasying = parseFloat( ( (_easing+0.1) >= 2.1 ? _easing+0.1 : _easing-0.1 ).toFixed(1) );
 					}
 					if( _easing == _angleRange){
 							clearInterval(_timer);
