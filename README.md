@@ -1,7 +1,7 @@
 Myui 
 =========================== 
 
- 基于CMD模式的javascript组件库
+ 基于CMD模式的javascript组件库...
 
 ## 已有组件
  - grid - 响应式表格
