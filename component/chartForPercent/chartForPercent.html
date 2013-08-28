@@ -16,7 +16,7 @@
 		    'util': 'util.js'
 		}
 	});
-	seajs.use(["./js/chartForPercent","jquery"],function(chartForPercent,$){
+	seajs.use(["./js/chartForPercent","jquery","util"],function(chartForPercent,$,util){
 		$(function(){
 			var test = chartForPercent.chartForPercent(
 							{
@@ -27,7 +27,8 @@
 							});
 			setTimeout(function(){
 				test.reset(80);
-			},2000)
+			},2000);
+
 		})
 	});
 </script>
