@@ -7,6 +7,18 @@
 </head>
 <body>
 	<div id="test" style="width:100px; height:100px; position: relative;"></div>
+	<div   style="width:100px; height:100px; position: relative;"><p style="width:100px; ">ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p></div>
+	<div>1</div>
+	<div>2</div>
+	<div>3</div>
+
+	<select>
+		<option value=""></option>
+		<option value=""></option>
+		<option value=""></option>
+		<option value=""></option>
+		<option value=""></option>
+	</select>
 <script src="../../lib/seajs/sea.js" id="seajsnode"></script>
 <script type="text/javascript">
 	seajs.config({
@@ -28,6 +40,32 @@
 			setTimeout(function(){
 				test.reset(80);
 			},2000);
+
+			/*var a1={ a:1, b:2},
+				b1={ a:3, c:4}
+			console.log(util.mix(a1,b1))*/
+
+			var a = [1,2,3];
+			// for(var i in a ){
+			// 	console.log(i + '  ' +a[i])
+			// }
+			// console.log(window === window.window)
+
+			var divs = document.getElementsByTagName('select')[0];
+			var div = document.getElementById('test');
+
+			function t(){
+				// return util.isArrayLike(arguments)
+				 util.each(arguments,function(i,o){
+			  		console.log(o)
+			  	 })
+			}
+		    t(1,2,3,3,4,5,6); 
+
+		    var a =  'abchjdhre'.split('');
+		    console.log(a);
+		    console.log(a.splice(0,3,'a','d','w'))
+		    console.log(a);
 
 		})
 	});
