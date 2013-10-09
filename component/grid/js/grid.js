@@ -70,7 +70,7 @@ define(function(require, exports, module) {
      this.gridwrap = document.createElement("div");
      this.gridwrap.className = "myui-grid-wraper"
   	 this.gridwrap.innerHTML = _tablestr.join('');
-  	 this.header = this.gridwrap.firstChild.tHead;
+  	 this.header = this.gridwrap.firstChild.tHead;     
   	 this.tbody = this.gridwrap.firstChild.tBodies[0];
   	 this.pagesize = this.options.pagesize;
      this.element.appendChild(this.gridwrap);
