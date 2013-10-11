@@ -8,6 +8,25 @@
 </head>
 <body>
 <div id="griddemo"></div>
+<table border='1' width="100" cellspacing='0' cellpadding='0'>
+	<tr>
+		<td>ID</td>
+		<td>Name</td>
+		<td rowspan='4'></td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>tom</td>
+	</tr>	
+	<tr>
+		<td>1</td>
+		<td>tom</td>
+	</tr>	
+	<tr>
+		<td>1</td>
+		<td>tom</td>
+	</tr>
+</table>
 <script src="../../lib/seajs/sea.js" id="seajsnode"></script>
 <script type="text/javascript">
 	seajs.config({
@@ -31,7 +50,8 @@
 								{label:"about",field:"about"}
 							],
 							datasource:"tabletestdata.json",
-							pagesize:10
+							pagesize:10,
+							colFixNum:2
 						});
 		})
 	});
