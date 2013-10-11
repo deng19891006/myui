@@ -9,11 +9,13 @@
 <body>
 <div id="griddemo"></div>
 <table border='1' width="100" cellspacing='0' cellpadding='0'>
+	<thead>
 	<tr>
 		<td>ID</td>
 		<td>Name</td>
-		<td rowspan='4'></td>
+		<td rowspan='4'>s</td>
 	</tr>
+	</thead>
 	<tr>
 		<td>1</td>
 		<td>tom</td>
@@ -40,14 +42,15 @@
 		$(function(){
 			  _grid.grid({element:"griddemo",
 							fileds:[
-						    	{label:"#",field:"index"},
-								{label:"name",field:"name"},
-								{label:"address",field:"address"},
-								{label:"gender",field:"gender"},
-								{label:"cityId",field:"cityId"},
-								{label:"birthDate",field:"birthDate"},
-								{label:"education",field:"education"},	
-								{label:"about",field:"about"}
+						    	//{label:"#",field:"index"},
+								{label:"name",field:"Name"},
+								{label:"address",field:"EmailAddress"},
+								{label:"password",field:"Password"},
+								{label:"gender",field:"Gender"},
+								{label:"cityId",field:"CityId"},
+								{label:"birthDate",field:"BirthDate"},
+								{label:"education",field:"Education"},	
+								{label:"about",field:"About"}
 							],
 							datasource:"tabletestdata.json",
 							pagesize:10,

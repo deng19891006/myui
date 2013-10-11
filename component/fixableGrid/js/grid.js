@@ -57,11 +57,12 @@ define(function(require, exports, module) {
 
   	 this.options = $.extend({
                     	 	element : "",      // 表格容器
+                        fileds : "",
                     	 	datasource : "",   // 数据源接口
                         pagesize : 1,      // 当前页面
                         colFixNum : 0      // 固定列标识  2表示固定第一列和第二列 , 默认值0不启动列固定
   	                  },options);
-
+     this.colfixed = false;
   	 this.init.call(this);
   };
 
@@ -89,10 +90,11 @@ define(function(require, exports, module) {
       _columns = new Array();
       _tableStr = ['<table  class="myui-grid"><thead><tr>','</tr></thead><tbody></tbody></table>'];
       for(var i =0; i < this.options.fileds.length; i++){
+         console.log(this.options.fileds[i])
          _columns.push('<td>'+this.options.fileds[i].label+"</td>")
       }
       _tableStr.splice(1,0,_columns.join(''));
-      this.gridwrap.innerHTML = tableStr.join('');
+      this.gridwrap.innerHTML = _tableStr.join('');
       this.header = this.gridwrap.firstChild.tHead;     
       this.tbody = this.gridwrap.firstChild.tBodies[0];
       this.element.appendChild(this.gridwrap);
@@ -100,6 +102,8 @@ define(function(require, exports, module) {
       this.pagerEventlistener.call(this);
 
     }else{
+
+      this.colfixed = true;
       _columns = new Array();
       _tableStr = ['<table  class="myui-grid"><thead><tr>','</tr></thead><tbody></tbody></table>'];
       for(var i =0; i < colFixNum; i++){
@@ -108,30 +112,49 @@ define(function(require, exports, module) {
       _columns.push('<td rowspan='+11+'>test</td>');
       _tableStr.splice(1,0,_columns.join(''));
       this.gridwrap.innerHTML = _tableStr.join('');
+      this.header = this.gridwrap.firstChild.tHead;     
+      this.tbody = this.gridwrap.firstChild.tBodies[0];
       this.element.appendChild(this.gridwrap);
       this.loadData.call(this);
-    }
 
+    }
   }
 
   //loadData
   grid.prototype.loadData = function(conf){
-  	var _this = this;
+  	var _this = this,
+        _colFixNum = _this.options.colFixNum,
+        _fileds = _this.options.fileds;
   	this._tbodyFlag = document.createDocumentFragment();
   	if(conf===undefined || !conf.currpagenum  ){
   		conf = {'currpagenum':1};
   	}
   	this.getData(conf,function(data){
-  		for(var i = 0; i<data.data.length; i++){
-          var _tr = document.createElement("tr");
-          for(var j in data.data[i]){
-            _td = document.createElement("td"),
-            _text = document.createTextNode(data.data[i][j]);
-            _td.appendChild(_text);
-            _tr.appendChild(_td);
-          }
-          _this._tbodyFlag.appendChild(_tr);
+      if( !_this.colfixed){
+    		for(var i = 0; i<data.data.length; i++){
+            var _tr = document.createElement("tr");
+            for(var j in data.data[i]){
+              var _td = document.createElement("td"),
+                  _text = document.createTextNode(data.data[i][j]);
+              _td.appendChild(_text);
+              _tr.appendChild(_td);
+            }
+            _this._tbodyFlag.appendChild(_tr);
+        }
+      }else{
+        for(var i = 0; i<data.data.length; i++){
+            var _tr = document.createElement("tr");
+            for( var j = 0; j < _colFixNum ; j++){
+              var _td = document.createElement("td"),
+                  _filedsTemp = _fileds[j].field,
+                  _text = document.createTextNode(data.data[i][_filedsTemp]);
+                  _td.appendChild(_text);
+                  _tr.appendChild(_td);
+            }
+            _this._tbodyFlag.appendChild(_tr);
+        }
       }
+
       _this.tbody.innerHTML = '';
       var _lastchild = _this.gridwrap.lastChild;
       if(_lastchild && _lastchild.className === "myui-grid-bottompanel"){
