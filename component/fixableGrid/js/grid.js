@@ -130,6 +130,7 @@ define(function(require, exports, module) {
   		conf = {'currpagenum':1};
   	}
   	this.getData(conf,function(data){
+      
       if( !_this.colfixed){
     		for(var i = 0; i<data.data.length; i++){
             var _tr = document.createElement("tr");
