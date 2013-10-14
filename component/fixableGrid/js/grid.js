@@ -80,7 +80,7 @@ define(function(require, exports, module) {
     var colFixNum = this.options.colFixNum,
         _tableStr = '',
         _columns = [];
-
+    this.fix_columns = [];
     if( colFixNum < 0 ){
 
       return false;
@@ -90,8 +90,9 @@ define(function(require, exports, module) {
     _tableStr = ['<table  class="myui-grid"><tbody><tr>','</tr></tbody></table>'];
     
     if( colFixNum > 0 ){
-      for(var i =0; i < colFixNum; i++){
-       _columns.push('<td>'+this.options.fileds[i].label+"</td>")
+      for(var i =0; i < this.options.fileds.length; i++){
+        i < colFixNum ? _columns.push('<td>'+this.options.fileds[i].label+"</td>") :
+                        this.fix_columns.push('<td>'+this.options.fileds[i].label+"</td>");
       }
       this.colfixed = true;
       _columns.push('<td rowspan='+(this.options.pagesize+2)+'>test</td>');
@@ -115,8 +116,9 @@ define(function(require, exports, module) {
   grid.prototype.loadData = function(conf){
   	var _this = this,
         _colFixNum = _this.options.colFixNum,
-        _fileds = _this.options.fileds;
-  	    _this._tbodyFlag = document.createDocumentFragment();
+        _fileds = _this.options.fileds,
+        _fixbodyFlag = document.createDocumentFragment();
+  	_this._tbodyFlag = document.createDocumentFragment();
   	if(conf===undefined || !conf.currpagenum  ){
   		conf = {'currpagenum':1};
   	}
@@ -145,8 +147,11 @@ define(function(require, exports, module) {
                       j < _colFixNum ? _tr.appendChild(_td) : _tr_fix.appendChild(_td);
                 }
             _this._tbodyFlag.appendChild(_tr);
+            _fixbodyFlag.appendChild(_tr_fix);
             _tableStr = ['<table  class="myui-grid"><tbody><tr>','</tr></tbody></table>'];
         }
+        console.log(_this.fix_columns);
+        console.log(_fixbodyFlag);
         var _fixlast_tr = document.createElement("tr");
             _fixlast_tr.innerHTML = '<td colspan="'+_colFixNum+'"></td>'
         _this._tbodyFlag.appendChild(_fixlast_tr);
