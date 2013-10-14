@@ -94,13 +94,13 @@ define(function(require, exports, module) {
        _columns.push('<td>'+this.options.fileds[i].label+"</td>")
       }
       this.colfixed = true;
-      _columns.push('<td rowspan='+(this.options.pagesize+1)+'>test</td>');
+      _columns.push('<td rowspan='+(this.options.pagesize+2)+'>test</td>');
     }else{
       for(var i =0; i < this.options.fileds.length; i++){
          _columns.push('<td>'+this.options.fileds[i].label+"</td>")
       }
     }
-    
+
     _tableStr.splice(1,0,_columns.join(''));
     this.gridwrap.innerHTML = _tableStr.join('');
     this.tbody = this.gridwrap.firstChild.tBodies[0];
@@ -116,7 +116,7 @@ define(function(require, exports, module) {
   	var _this = this,
         _colFixNum = _this.options.colFixNum,
         _fileds = _this.options.fileds;
-  	_this._tbodyFlag = document.createDocumentFragment();
+  	    _this._tbodyFlag = document.createDocumentFragment();
   	if(conf===undefined || !conf.currpagenum  ){
   		conf = {'currpagenum':1};
   	}
@@ -135,16 +135,21 @@ define(function(require, exports, module) {
         }
       }else{
         for(var i = 0; i<data.data.length; i++){
-            var _tr = document.createElement("tr");
-            for( var j = 0; j < _colFixNum ; j++){
-              var _td = document.createElement("td"),
-                  _filedsTemp = _fileds[j].field,
-                  _text = document.createTextNode(data.data[i][_filedsTemp]);
-                  _td.appendChild(_text);
-                  _tr.appendChild(_td);
-            }
+            var _tr = document.createElement("tr"),
+                _tr_fix = document.createElement("tr");
+                for( var j = 0; j < _fileds.length ; j++){
+                  var _td = document.createElement("td"),
+                      _filedsTemp = _fileds[j].field,
+                      _text = document.createTextNode(data.data[i][_filedsTemp]);
+                      _td.appendChild(_text);
+                      j < _colFixNum ? _tr.appendChild(_td) : _tr_fix.appendChild(_td);
+                }
             _this._tbodyFlag.appendChild(_tr);
+            _tableStr = ['<table  class="myui-grid"><tbody><tr>','</tr></tbody></table>'];
         }
+        var _fixlast_tr = document.createElement("tr");
+            _fixlast_tr.innerHTML = '<td colspan="'+_colFixNum+'"></td>'
+        _this._tbodyFlag.appendChild(_fixlast_tr);
       }
 
       _this.tbody.innerHTML = '';
