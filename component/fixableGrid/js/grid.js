@@ -79,47 +79,36 @@ define(function(require, exports, module) {
   grid.prototype.initBasicTableFramework = function(){
     var colFixNum = this.options.colFixNum,
         _tableStr = '',
-        _columns;
+        _columns = [];
 
     if( colFixNum < 0 ){
 
       return false;
 
-    }else if( colFixNum === 0 ){
+    } 
 
-      _columns = new Array();
-      _tableStr = ['<table  class="myui-grid"><tbody><tr>','</tr></tbody></table>'];
-      for(var i =0; i < this.options.fileds.length; i++){
-         console.log(this.options.fileds[i])
-         _columns.push('<td>'+this.options.fileds[i].label+"</td>")
-      }
-      _tableStr.splice(1,0,_columns.join(''));
-      this.gridwrap.innerHTML = _tableStr.join('');
-      this.tbody = this.gridwrap.firstChild.tBodies[0];
-      this.header = this.tbody.firstChild;     
-      this.c_header = this.header.cloneNode();
-      this.element.appendChild(this.gridwrap);
-      this.loadData.call(this);
-      this.pagerEventlistener.call(this);
-
-    }else{
-
-      this.colfixed = true;
-      _columns = new Array();
-      // _tableStr = ['<table  class="myui-grid"><thead><tr>','</tr></thead><tbody></tbody></table>'];
-      _tableStr = ['<table  class="myui-grid"><tbody><tr>','</tr></tbody></table>'];
+    _tableStr = ['<table  class="myui-grid"><tbody><tr>','</tr></tbody></table>'];
+    
+    if( colFixNum > 0 ){
       for(var i =0; i < colFixNum; i++){
+       _columns.push('<td>'+this.options.fileds[i].label+"</td>")
+      }
+      this.colfixed = true;
+      _columns.push('<td rowspan='+(this.options.pagesize+1)+'>test</td>');
+    }else{
+      for(var i =0; i < this.options.fileds.length; i++){
          _columns.push('<td>'+this.options.fileds[i].label+"</td>")
       }
-      _columns.push('<td rowspan='+11+'>test</td>');
-      _tableStr.splice(1,0,_columns.join(''));
-      this.gridwrap.innerHTML = _tableStr.join('');
-      this.header = this.gridwrap.firstChild.tHead;     
-      this.tbody = this.gridwrap.firstChild.tBodies[0];
-      this.element.appendChild(this.gridwrap);
-      this.loadData.call(this);
-
     }
+    
+    _tableStr.splice(1,0,_columns.join(''));
+    this.gridwrap.innerHTML = _tableStr.join('');
+    this.tbody = this.gridwrap.firstChild.tBodies[0];
+    this.header = this.tbody.firstChild;
+    this.c_header = this.header.cloneNode();
+    this.element.appendChild(this.gridwrap);
+    this.loadData.call(this);
+    this.pagerEventlistener.call(this);
   }
 
   //loadData
