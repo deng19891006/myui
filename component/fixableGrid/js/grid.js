@@ -88,15 +88,16 @@ define(function(require, exports, module) {
     }else if( colFixNum === 0 ){
 
       _columns = new Array();
-      _tableStr = ['<table  class="myui-grid"><thead><tr>','</tr></thead><tbody></tbody></table>'];
+      _tableStr = ['<table  class="myui-grid"><tbody><tr>','</tr></tbody></table>'];
       for(var i =0; i < this.options.fileds.length; i++){
          console.log(this.options.fileds[i])
          _columns.push('<td>'+this.options.fileds[i].label+"</td>")
       }
       _tableStr.splice(1,0,_columns.join(''));
       this.gridwrap.innerHTML = _tableStr.join('');
-      this.header = this.gridwrap.firstChild.tHead;     
       this.tbody = this.gridwrap.firstChild.tBodies[0];
+      this.header = this.tbody.firstChild;     
+      this.c_header = this.header.cloneNode();
       this.element.appendChild(this.gridwrap);
       this.loadData.call(this);
       this.pagerEventlistener.call(this);
@@ -105,7 +106,8 @@ define(function(require, exports, module) {
 
       this.colfixed = true;
       _columns = new Array();
-      _tableStr = ['<table  class="myui-grid"><thead><tr>','</tr></thead><tbody></tbody></table>'];
+      // _tableStr = ['<table  class="myui-grid"><thead><tr>','</tr></thead><tbody></tbody></table>'];
+      _tableStr = ['<table  class="myui-grid"><tbody><tr>','</tr></tbody></table>'];
       for(var i =0; i < colFixNum; i++){
          _columns.push('<td>'+this.options.fileds[i].label+"</td>")
       }
@@ -125,12 +127,12 @@ define(function(require, exports, module) {
   	var _this = this,
         _colFixNum = _this.options.colFixNum,
         _fileds = _this.options.fileds;
-  	this._tbodyFlag = document.createDocumentFragment();
+  	_this._tbodyFlag = document.createDocumentFragment();
   	if(conf===undefined || !conf.currpagenum  ){
   		conf = {'currpagenum':1};
   	}
   	this.getData(conf,function(data){
-      
+      _this._tbodyFlag.appendChild(_this.c_header);
       if( !_this.colfixed){
     		for(var i = 0; i<data.data.length; i++){
             var _tr = document.createElement("tr");

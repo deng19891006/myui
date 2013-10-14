@@ -9,7 +9,7 @@
 <body>
 <div id="griddemo"></div>
 <table border='1' width="100" cellspacing='0' cellpadding='0'>
-	<thead>
+	<tbody>
 	<tr>
 		<td>ID</td>
 		<td>Name</td>
@@ -28,6 +28,7 @@
 		<td>1</td>
 		<td>tom</td>
 	</tr>
+	</tbody>
 </table>
 <script src="../../lib/seajs/sea.js" id="seajsnode"></script>
 <script type="text/javascript">
@@ -53,8 +54,8 @@
 								{label:"about",field:"About"}
 							],
 							datasource:"tabletestdata.json",
-							pagesize:10,
-							colFixNum:2
+							pagesize:10
+							// colFixNum:2
 						});
 		})
 	});
