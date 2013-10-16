@@ -28,33 +28,16 @@
 	.myui-grid-count span{vertical-align:middle}
 	.myui-grid-bottompanel .myui-grid-bottompanel-right{ position:absolute; top:0; right:0; line-height:30px; padding-right:10px}
 	.myui-grid-befroeSucc{ position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; padding: 30px 0; z-index:100 }
-
 	
-/*浏览器分辨率 < 480px */
-@media screen and (max-width:480px){
-   /*grid*/   
-   .myui-grid{ display:block; width:100%; position:relative;}
-   .myui-grid thead { float:left; display:block; position:relative;}
-   .myui-grid thead tr{ display:block;  }
-   .myui-grid thead tr td{ display:block; padding:5px 8px; border-left:none; text-align:right; border-right: 1px solid #ccc}
-   .myui-grid tbody{
-		display: block;
-		width: auto;
-		position: relative;
-		overflow-x: auto;
-		overflow-y: scroll;
-		white-space: nowrap;
-		font-size:0px;
-   }
-   .myui-grid tbody tr{
-	   display:inline-block;
-	   font-size:12px;
-   }
-   .myui-grid tbody tr td{ display:block;border-left:none; border-top: none; }
-   .myui-grid tbody tr td{}
-   .myui-grid-bottompanel .myui-grid-bottompanel-left{ float:none; width: 100%}
-   .myui-grid-bottompanel .myui-grid-bottompanel-left span.myui-grid-pagelist{ display: block; height: 20px}
-   .myui-grid-bottompanel .myui-grid-bottompanel-left span.myui-grid-goto{ display: inline-block; margin: 5px 10px 0 0;}
-   .myui-grid-bottompanel .myui-grid-bottompanel-left span.myui-grid-count{ display: inline-block; margin:5px 0px;}
-   .myui-grid-bottompanel .myui-grid-bottompanel-right{ position:relative; display: inline-block; top: 0px; line-height: 20px;}
-}
+	.myui-gird-fixtable { margin: 0px; }
+	.myui-gird-fixtable table.fixtable{width:100%; font-size:12px; border-collapse:collapse; border-spacing: 0; border:none;}
+	.myui-gird-fixtable table.fixtable tbody tr:first-child td{  padding:5px 8px; text-align:center; color:#909090; background:#eee; box-shadow: 0 1px 0px #fff inset; border-bottom:1px solid #CCC; border-top: none;}
+	.myui-gird-fixtable table.fixtable tbody tr:first-child td:first-child{ border-left: none;}
+	.myui-gird-fixtable table.fixtable tbody .myui-loading{position: absolute;; top:0; left: 0;}
+	.myui-gird-fixtable table.fixtable tbody .myui-gird-fixtable table.fixtable tbody tr td{ border-left:1px solid #CCC; padding:5px 8px; text-align:center;}
+	.myui-gird-fixtable table.fixtable tbody tr:nth-child(even){ background:#f2f2f2!important;}
+	.myui-gird-fixtable table.fixtable tbody tr:nth-child(odd){ background:#F7F7F7!important;}
+	.myui-gird-fixtable table.fixtable tbody tr td{border:1px solid #CCC;box-shadow: 0 1px 0px #fff inset;padding:5px 8px;}
+	.myui-gird-fixtable table.fixtable tbody tr td:first-child{ border-left: none;}
+	.myui-gird-fixtable table.fixtable tbody tr td:last-child{ border-right: none;}
+ 	

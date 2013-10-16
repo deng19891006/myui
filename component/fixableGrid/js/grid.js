@@ -95,7 +95,7 @@ define(function(require, exports, module) {
                         this.fix_columns.push('<td>'+this.options.fileds[i].label+"</td>");
       }
       this.colfixed = true;
-      _columns.push('<td rowspan='+(this.options.pagesize+2)+'></td>');
+      _columns.push('<td rowspan='+(this.options.pagesize+2)+' id="'+this.options.element+'_fixCol" style="padding:0px;vertical-align: top; background-color:transparent "></td>');
     }else{
       for(var i =0; i < this.options.fileds.length; i++){
          _columns.push('<td>'+this.options.fileds[i].label+"</td>")
@@ -109,7 +109,7 @@ define(function(require, exports, module) {
     this.c_header = this.header.cloneNode();
     this.element.appendChild(this.gridwrap);
     if( this.colfixed ){
-      this.fix_header_td = this.tbody.firstChild.lastChild;
+      this.fix_header_td = this.header.lastChild;
     }
     this.loadData.call(this);
     this.pagerEventlistener.call(this);
@@ -121,13 +121,13 @@ define(function(require, exports, module) {
         _colFixNum = _this.options.colFixNum,
         _fileds = _this.options.fileds,
         _fixbodyStr = [],
-        _tableStr = ['<table  class="myui-grid"><tbody>','</tbody></table>'];
+        _tableStr = ['<div class="myui-gird-fixtable"><table class="fixtable"><tbody>','</tbody></table></div>'];
   	_this._tbodyFlag = document.createDocumentFragment();
   	if(conf===undefined || !conf.currpagenum  ){
   		conf = {'currpagenum':1};
   	}
   	this.getData(conf,function(data){
-      _this._tbodyFlag.appendChild(_this.c_header);
+      _this._tbodyFlag.appendChild(_this.header);
       if( !_this.colfixed){
     		for(var i = 0; i<data.data.length; i++){
             var _tr = document.createElement("tr");
@@ -157,13 +157,7 @@ define(function(require, exports, module) {
         _tableStr.splice(1 , 0 ,'<tr>'+_this.fix_columns.join('')+'</tr>');
         _tableStr.splice(2 , 0 , _fixbodyStr.join(''));
         var _fixlast_tr = document.createElement("tr");
-            _fixlast_tr.innerHTML = '<td colspan="'+_colFixNum+'"></td>'
-
-        var test = document.createElement('div');
-            test.innerHTML = _tableStr.join('');
-        _this.fix_header_td.appendChild(test);
-        console.log(_this.fix_header_td)
-
+            _fixlast_tr.innerHTML = '<td colspan="'+_colFixNum+'"></td>';
         _this._tbodyFlag.appendChild(_fixlast_tr);
       }
 
@@ -173,6 +167,7 @@ define(function(require, exports, module) {
         _this.gridwrap.removeChild(_lastchild)
       }  
       _this.tbody.appendChild(_this._tbodyFlag);
+      _this.fix_header_td.innerHTML = _tableStr.join('');
       _this._tbodyFlag = null;
       _this.gridwrap.appendChild(_this.pagelistfit.apply(_this, [data.total,data.pagesize,data.currpagenum]));
   	})
