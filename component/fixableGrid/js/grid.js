@@ -95,7 +95,7 @@ define(function(require, exports, module) {
                         this.fix_columns.push('<td>'+this.options.fileds[i].label+"</td>");
       }
       this.colfixed = true;
-      _columns.push('<td rowspan='+(this.options.pagesize+2)+' id="'+this.options.element+'_fixCol" style="padding:0px;vertical-align: top; background-color:transparent "></td>');
+      _columns.push('<td rowspan='+(this.options.pagesize+2)+' id="'+this.options.element+'_fixCol" style="padding:0px;vertical-align: top; background:transparent "></td>');
     }else{
       for(var i =0; i < this.options.fileds.length; i++){
          _columns.push('<td>'+this.options.fileds[i].label+"</td>")
