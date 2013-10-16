@@ -95,7 +95,7 @@ define(function(require, exports, module) {
                         this.fix_columns.push('<td>'+this.options.fileds[i].label+"</td>");
       }
       this.colfixed = true;
-      _columns.push('<td rowspan='+(this.options.pagesize+2)+'>test</td>');
+      _columns.push('<td rowspan='+(this.options.pagesize+2)+'></td>');
     }else{
       for(var i =0; i < this.options.fileds.length; i++){
          _columns.push('<td>'+this.options.fileds[i].label+"</td>")
@@ -108,6 +108,9 @@ define(function(require, exports, module) {
     this.header = this.tbody.firstChild;
     this.c_header = this.header.cloneNode();
     this.element.appendChild(this.gridwrap);
+    if( this.colfixed ){
+      this.fix_header_td = this.tbody.firstChild.lastChild;
+    }
     this.loadData.call(this);
     this.pagerEventlistener.call(this);
   }
@@ -117,7 +120,8 @@ define(function(require, exports, module) {
   	var _this = this,
         _colFixNum = _this.options.colFixNum,
         _fileds = _this.options.fileds,
-        _fixbodyFlag = document.createDocumentFragment();
+        _fixbodyStr = [],
+        _tableStr = ['<table  class="myui-grid"><tbody>','</tbody></table>'];
   	_this._tbodyFlag = document.createDocumentFragment();
   	if(conf===undefined || !conf.currpagenum  ){
   		conf = {'currpagenum':1};
@@ -138,22 +142,28 @@ define(function(require, exports, module) {
       }else{
         for(var i = 0; i<data.data.length; i++){
             var _tr = document.createElement("tr"),
-                _tr_fix = document.createElement("tr");
+                _tr_fix = '<tr>';
                 for( var j = 0; j < _fileds.length ; j++){
                   var _td = document.createElement("td"),
                       _filedsTemp = _fileds[j].field,
                       _text = document.createTextNode(data.data[i][_filedsTemp]);
                       _td.appendChild(_text);
-                      j < _colFixNum ? _tr.appendChild(_td) : _tr_fix.appendChild(_td);
+                      j < _colFixNum ? _tr.appendChild(_td) : _tr_fix += '<td>'+data.data[i][_filedsTemp]+'</td>';
                 }
+            _tr_fix +='</tr>';  
             _this._tbodyFlag.appendChild(_tr);
-            _fixbodyFlag.appendChild(_tr_fix);
-            _tableStr = ['<table  class="myui-grid"><tbody><tr>','</tr></tbody></table>'];
+            _fixbodyStr.push(_tr_fix);
         }
-        console.log(_this.fix_columns);
-        console.log(_fixbodyFlag);
+        _tableStr.splice(1 , 0 ,'<tr>'+_this.fix_columns.join('')+'</tr>');
+        _tableStr.splice(2 , 0 , _fixbodyStr.join(''));
         var _fixlast_tr = document.createElement("tr");
             _fixlast_tr.innerHTML = '<td colspan="'+_colFixNum+'"></td>'
+
+        var test = document.createElement('div');
+            test.innerHTML = _tableStr.join('');
+        _this.fix_header_td.appendChild(test);
+        console.log(_this.fix_header_td)
+
         _this._tbodyFlag.appendChild(_fixlast_tr);
       }
 
