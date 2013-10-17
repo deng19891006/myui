@@ -121,7 +121,7 @@ define(function(require, exports, module) {
         _colFixNum = _this.options.colFixNum,
         _fileds = _this.options.fileds,
         _fixbodyStr = [],
-        _tableStr = ['<div class="myui-gird-fixtable"><table class="fixtable"><tbody>','</tbody></table></div>'];
+        _tableStr = ['<div style="width: 198px;overflow: auto"><div class="myui-gird-fixtable" style="width: 600px;"><table class="fixtable"><tbody>','</tbody></table></div></div>'];
   	_this._tbodyFlag = document.createDocumentFragment();
   	if(conf===undefined || !conf.currpagenum  ){
   		conf = {'currpagenum':1};
