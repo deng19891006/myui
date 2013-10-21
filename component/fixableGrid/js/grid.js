@@ -129,7 +129,7 @@ define(function(require, exports, module) {
         _colFixNum = _this.options.colFixNum,
         _fileds = _this.options.fileds,
         _fixbodyStr = [],
-        _tableStr = ['<div style="width:'+this.header.lastChild.clientWidth+'px;overflow: auto"><div class="myui-gird-fixtable" style="width:600px; overflow:hidden"><table class="fixtable"><tbody>','</tbody></table></div></div>'];
+        _tableStr = ['<div style="width:'+this.header.lastChild.clientWidth+'px;overflow: auto"><div class="myui-gird-fixtable" style="width:'+( this.options.fileds.length - this.options.colFixNum)*100 +'px; overflow:hidden"><table class="fixtable"><tbody>','</tbody></table></div></div>'];
   	_this._tbodyFlag = document.createDocumentFragment();
   	if(conf===undefined || !conf.currpagenum  ){
   		conf = {'currpagenum':1};
@@ -171,7 +171,7 @@ define(function(require, exports, module) {
 
       _this.tbody.innerHTML = '';
       var _lastchild = _this.gridwrap.lastChild;
-      if(_lastchild && _lastchild.className === "myui-grid-bottompanel"){
+      if(_lastchild && _lastchild.className.toString().indexOf("myui-grid-bottompanel")>=0){
         _this.gridwrap.removeChild(_lastchild)
       }  
       _this.tbody.appendChild(_this._tbodyFlag);
