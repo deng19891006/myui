@@ -9,6 +9,7 @@ Myui
  - dialog - 弹出窗口
  - tip - 提示信息
  - chartForPercent - 百分比仪表
+ - fixAbleGrid - 可固定列grid (grid扩展)
  - ......
 
 ## 说明
