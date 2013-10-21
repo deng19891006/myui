@@ -44,8 +44,8 @@
 			  _grid.grid({element:"griddemo",
 							fileds:[
 						    	//{label:"#",field:"index"},
-								{label:"name",field:"Name"},
-								{label:"address",field:"EmailAddress"},
+								{label:"name",field:"Name",width:60},
+								{label:"address",field:"EmailAddress",width:60},
 								{label:"password",field:"Password"},
 								{label:"gender",field:"Gender"},
 								{label:"cityId",field:"CityId"},
@@ -55,7 +55,8 @@
 							],
 							datasource:"tabletestdata.json",
 							pagesize:10,
-							colFixNum:2
+							colFixNum:2,
+							colFixWidth:500
 						});
 		})
 	});

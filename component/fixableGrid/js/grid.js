@@ -46,6 +46,7 @@
 define(function(require, exports, module) {
 
   var $ = require("jquery"), 
+      util = require("util"),
       win = window,
       docu = win.document;
 
@@ -57,10 +58,11 @@ define(function(require, exports, module) {
 
   	 this.options = $.extend({
                     	 	element : "",      // 表格容器
-                        fileds : "",
+                        fileds : "",       // 表格列字段
                     	 	datasource : "",   // 数据源接口
                         pagesize : 1,      // 当前页面
-                        colFixNum : 0      // 固定列标识  2表示固定第一列和第二列 , 默认值0不启动列固定
+                        colFixNum : 0,     // 固定列标识  2表示固定第一列和第二列 , 默认值0不启动列固定
+                        colFixWidth : 600  // 若具有column fixable , 则需要给出表格容器宽度 , 反之自行手动在html上修改即可
   	                  },options);
      this.colfixed = false;
   	 this.init.call(this);
@@ -90,12 +92,13 @@ define(function(require, exports, module) {
     _tableStr = ['<table  class="myui-grid"><tbody><tr>','</tr></tbody></table>'];
     
     if( colFixNum > 0 ){
+      this.element.style.width = this.options.colFixWidth+"px";
       for(var i =0; i < this.options.fileds.length; i++){
-        i < colFixNum ? _columns.push('<td>'+this.options.fileds[i].label+"</td>") :
+        i < colFixNum ? _columns.push('<td width='+this.options.fileds[i].width+'>'+this.options.fileds[i].label+"</td>") :
                         this.fix_columns.push('<td>'+this.options.fileds[i].label+"</td>");
       }
       this.colfixed = true;
-      _columns.push('<td rowspan='+(this.options.pagesize+2)+' id="'+this.options.element+'_fixCol" style="padding:0px;vertical-align: top; background:transparent "></td>');
+      _columns.push('<td  rowspan='+(this.options.pagesize+2)+' id="'+this.options.element+'_fixCol" style="padding:0px;vertical-align: top; background:transparent "></td>');
     }else{
       for(var i =0; i < this.options.fileds.length; i++){
          _columns.push('<td>'+this.options.fileds[i].label+"</td>")
@@ -106,8 +109,13 @@ define(function(require, exports, module) {
     this.gridwrap.innerHTML = _tableStr.join('');
     this.tbody = this.gridwrap.firstChild.tBodies[0];
     this.header = this.tbody.firstChild;
-    this.c_header = this.header.cloneNode();
+    this.c_header = this.header.cloneNode(); 
     this.element.appendChild(this.gridwrap);
+
+    // console.log((this.tbody.lastChild));
+    // console.log(util.getElementStyle(this.tbody.lastChild,'width'))
+    // console.log($(this.tbody.lastChild).width())
+
     if( this.colfixed ){
       this.fix_header_td = this.header.lastChild;
     }
@@ -121,7 +129,7 @@ define(function(require, exports, module) {
         _colFixNum = _this.options.colFixNum,
         _fileds = _this.options.fileds,
         _fixbodyStr = [],
-        _tableStr = ['<div style="width: 198px;overflow: auto"><div class="myui-gird-fixtable" style="width: 600px;"><table class="fixtable"><tbody>','</tbody></table></div></div>'];
+        _tableStr = ['<div style="width:'+this.header.lastChild.clientWidth+'px;overflow: auto"><div class="myui-gird-fixtable" style="width:600px; overflow:hidden"><table class="fixtable"><tbody>','</tbody></table></div></div>'];
   	_this._tbodyFlag = document.createDocumentFragment();
   	if(conf===undefined || !conf.currpagenum  ){
   		conf = {'currpagenum':1};
@@ -156,9 +164,9 @@ define(function(require, exports, module) {
         }
         _tableStr.splice(1 , 0 ,'<tr>'+_this.fix_columns.join('')+'</tr>');
         _tableStr.splice(2 , 0 , _fixbodyStr.join(''));
-        var _fixlast_tr = document.createElement("tr");
-            _fixlast_tr.innerHTML = '<td colspan="'+_colFixNum+'"></td>';
-        _this._tbodyFlag.appendChild(_fixlast_tr);
+        // var _fixlast_tr = document.createElement("tr");
+        //     _fixlast_tr.innerHTML = '<td colspan="'+_colFixNum+'"></td>';
+        // _this._tbodyFlag.appendChild(_fixlast_tr);
       }
 
       _this.tbody.innerHTML = '';
