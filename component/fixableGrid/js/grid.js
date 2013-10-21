@@ -252,7 +252,7 @@ define(function(require, exports, module) {
         _pagelisttemp = "",
         _pagelistnum="",
         _rangenum="";
-        _pagedom.className = "myui-grid-bottompanel",
+        _pagedom.className = "myui-grid-bottompanel clearfix",
     this.total = total;
     this.pagenum =total%pagesize>0?parseInt(total/pagesize)+1:total/pagesize;
     var _prenum = currpagenum>1?currpagenum-1:1,
