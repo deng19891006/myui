@@ -164,9 +164,6 @@ define(function(require, exports, module) {
         }
         _tableStr.splice(1 , 0 ,'<tr>'+_this.fix_columns.join('')+'</tr>');
         _tableStr.splice(2 , 0 , _fixbodyStr.join(''));
-        // var _fixlast_tr = document.createElement("tr");
-        //     _fixlast_tr.innerHTML = '<td colspan="'+_colFixNum+'"></td>';
-        // _this._tbodyFlag.appendChild(_fixlast_tr);
       }
 
       _this.tbody.innerHTML = '';
