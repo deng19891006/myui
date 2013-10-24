@@ -26,13 +26,6 @@
 		myuiTip.init( options );
 	}
 
-	var myuiTip = {
-
-		init : function( options ){
-			 
-		},
-
-		 
 	exports.datepicker = datepicker;
 
  });
