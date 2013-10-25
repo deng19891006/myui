@@ -10,6 +10,7 @@ Myui
  - tip - 提示信息
  - chartForPercent - 百分比仪表
  - fixAbleGrid - 可固定列grid (grid扩展)
+ - datepicker - 自定义日历
  - ......
 
 ## 说明
