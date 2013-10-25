@@ -5,8 +5,14 @@
 	<title>Document</title>
 	<link rel="stylesheet" href="../base/style/base.css">
 	<link rel="stylesheet" href="style/css.css">
+	<style>
+		input { border: 3px solid rgb(68, 35, 89); opacity: 0.5; box-shadow: 1px 2px 4px #ccc; -webkit-transition: all 0.2s ease-in-out; padding: 5px; margin: 100px 100px;}
+		input:hover{ opacity: 0.7}
+		input:active{ opacity: 0.8}
+	</style>
 </head>
 <body>
+<input type="text" placeholder='click'>
 <script src="../../lib/seajs/sea.js" id="seajsnode"></script>
 <script type="text/javascript">
 	seajs.config({
