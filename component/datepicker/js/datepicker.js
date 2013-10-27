@@ -1,5 +1,5 @@
 /*
- *@desc:简单应用的tip提示框
+ *@desc:datepicker 自定义日历控件
  */
 
  define(function(require,exports,module){
