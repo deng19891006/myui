@@ -46,15 +46,18 @@
 							 '<div class="myui-datepicker">',
 							 '<b class="leftBtn"></b>',
 							 '<b class="rightBtn"></b>',
-							 '<div class="datepicker_list">'],
+							 '<div class="datepicker_list">'];
+
+			console.log(wrapStr)
 		}
 	}
 
-	myDatepicker.prototype = {
+	datepicker.prototype = {
 
 	}
 	
-	exports.datepicker = datepicker;
+	// exports.datepicker = datepicker;
+	module.exports = datepicker;
 
  });
 
