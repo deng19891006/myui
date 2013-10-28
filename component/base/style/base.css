@@ -1,4 +1,4 @@
-*{margin:0;  }
+*{margin:0; font-size: 12px; font-family: "微软雅黑";}
 
 .clearfix:before,.clearfix:after {
    content:"";
@@ -12,6 +12,7 @@
    *zoom:1; /* IE < 8 */
 }
 
+li{ display: none;}
 /* -----myui easy class-----*/
 	.myui-dblock{display: block;}
 	.myui-nb{border:none;}

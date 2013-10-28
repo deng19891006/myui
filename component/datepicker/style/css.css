@@ -1,1 +1,65 @@
 /* datepicker */
+
+.myui-datepicker-wraper{
+	position: absolute;
+	top:100px;
+	left:300px;
+}
+
+.myui-datepicker{ 
+	border:1px solid #ccc; 
+	padding: 5px 30px; 
+	background: #fefefe;
+	position: relative; 
+	display: inline-block; 
+	*display: inline; 
+	*zoom:1;
+}
+
+.myui-datepicker .leftBtn , .myui-datepicker .rightBtn{
+	position: absolute;
+	width: 20px;
+	height: 60px;
+	background: #f00;
+	top:20px;
+}
+
+.myui-datepicker .leftBtn{
+	left: 10px;
+}
+
+.myui-datepicker .rightBtn{
+	right: 10px;
+}
+
+.myui-datepicker .datepicker_list{
+}
+
+.myui-datepicker .datepicker_list .list{
+	display: inline-block;
+	*zoom:1;
+	*display: inline;
+	padding: 0 10px;
+}
+
+.myui-datepicker .datepicker_list .list h4{
+	font-weight: 300;
+	text-align: center;
+	border-bottom: 1px solid #ccc;
+	line-height: 25px
+}
+
+.myui-datepicker .datepicker_list .list table{
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+.myui-datepicker .datepicker_list .list table th{
+	
+}
+
+.myui-datepicker .datepicker_list .list table td{
+	border:1px solid #ccc;
+	padding: 4px 5px;
+	text-align: center;
+}

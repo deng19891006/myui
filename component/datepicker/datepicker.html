@@ -6,13 +6,148 @@
 	<link rel="stylesheet" href="../base/style/base.css">
 	<link rel="stylesheet" href="style/css.css">
 	<style>
-		input { border: 3px solid rgb(68, 35, 89); opacity: 0.5; box-shadow: 1px 2px 4px #ccc; -webkit-transition: all 0.2s ease-in-out; padding: 5px; margin: 100px 100px;}
+		input { border: 3px solid rgb(68, 35, 89); opacity: 0.5; box-shadow: 1px 2px 4px #ccc; -webkit-transition: all 0.2s ease-in-out; padding: 5px; margin: 100px  0 0 100px;}
 		input:hover{ opacity: 0.7}
 		input:active{ opacity: 0.8}
 	</style>
 </head>
 <body>
-<input type="text" placeholder='click'>
+<input type="text" placeholder='click' id="date">
+<div class="myui-datepicker-wraper">
+	<div class="myui-datepicker">
+			<b class="leftBtn"></b>
+			<b class="rightBtn"></b>
+			<div class="datepicker_list">
+				 <div class="list">
+				 	<h4>2014年1月</h4>
+				 	<table>
+				 		<thead>
+				 			<tr>
+				 				<th>日</th>
+				 				<th>一</th>
+				 				<th>二</th>
+				 				<th>三</th>
+				 				<th>四</th>
+				 				<th>五</th>
+				 				<th>六</th>
+				 			</tr>
+				 		</thead>
+				 		<tbody>
+				 			<tr>
+				 				<td></td>
+				 				<td></td>
+				 				<td>1</td>
+				 				<td>2</td>
+				 				<td>3</td>
+				 				<td>4</td>
+				 				<td>5</td>
+				 			</tr>
+				 			<tr>
+				 				<td>6</td>
+				 				<td>7</td>
+				 				<td>8</td>
+				 				<td>9</td>
+				 				<td>10</td>
+				 				<td>11</td>
+				 				<td>12</td>
+				 			</tr>
+				 			<tr>
+				 				<td>13</td>
+				 				<td>14</td>
+				 				<td>15</td>
+				 				<td>16</td>
+				 				<td>17</td>
+				 				<td>18</td>
+				 				<td>19</td>
+				 			</tr>
+				 			<tr>
+				 				<td>20</td>
+				 				<td>21</td>
+				 				<td>22</td>
+				 				<td>23</td>
+				 				<td>24</td>
+				 				<td>25</td>
+				 				<td>26</td>
+				 			</tr>
+				 			<tr>
+				 				<td>27</td>
+				 				<td>28</td>
+				 				<td>29</td>
+				 				<td>30</td>
+				 				<td>31</td>
+				 				<td></td>
+				 				<td></td>
+				 			</tr>
+				 		</tbody>
+				 	</table>
+				 </div>
+				 <div class="list">
+				 	<h4>2014年2月</h4>
+				 	<table>
+				 		<thead>
+				 			<tr>
+				 				<th>日</th>
+				 				<th>一</th>
+				 				<th>二</th>
+				 				<th>三</th>
+				 				<th>四</th>
+				 				<th>五</th>
+				 				<th>六</th>
+				 			</tr>
+				 		</thead>
+				 		<tbody>
+				 			<tr>
+				 				<td></td>
+				 				<td></td>
+				 				<td>1</td>
+				 				<td>2</td>
+				 				<td>3</td>
+				 				<td>4</td>
+				 				<td>5</td>
+				 			</tr>
+				 			<tr>
+				 				<td>6</td>
+				 				<td>7</td>
+				 				<td>8</td>
+				 				<td>9</td>
+				 				<td>10</td>
+				 				<td>11</td>
+				 				<td>12</td>
+				 			</tr>
+				 			<tr>
+				 				<td>13</td>
+				 				<td>14</td>
+				 				<td>15</td>
+				 				<td>16</td>
+				 				<td>17</td>
+				 				<td>18</td>
+				 				<td>19</td>
+				 			</tr>
+				 			<tr>
+				 				<td>20</td>
+				 				<td>21</td>
+				 				<td>22</td>
+				 				<td>23</td>
+				 				<td>24</td>
+				 				<td>25</td>
+				 				<td>26</td>
+				 			</tr>
+				 			<tr>
+				 				<td>27</td>
+				 				<td>28</td>
+				 				<td>29</td>
+				 				<td>30</td>
+				 				<td>31</td>
+				 				<td></td>
+				 				<td></td>
+				 			</tr>
+				 		</tbody>
+				 	</table>
+				 </div>
+			</div>
+	</div>
+</div>
+
 <script src="../../lib/seajs/sea.js" id="seajsnode"></script>
 <script type="text/javascript">
 	seajs.config({
