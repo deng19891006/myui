@@ -25,14 +25,28 @@
 		}
 
 		options = $.extend( defaults , options );
+
+		var target = docu.getElementById(options.element);
+
+		options.target = target;
+		options.left = target.offsetLeft;
+		options.top = target.offsetTop;
+		options.height = target.offsetHeight;
+		options.exist =false;
+
 		this.__o__ = options ;
 		myDatepicker.init( options );
 
 	}
 
 	var myDatepicker = {
-		'init' : function ( options ){
-
+		'init' : function ( o ){
+			var cssstr = "positon:absolute; top:"+(o.top+o.height)+"px; left:"+o.left+"px; ",
+				wrapStr = ['<div class="myui-datepicker-wraper" style="'+cssstr+'">',
+							 '<div class="myui-datepicker">',
+							 '<b class="leftBtn"></b>',
+							 '<b class="rightBtn"></b>',
+							 '<div class="datepicker_list">'],
 		}
 	}
 
