@@ -40,7 +40,7 @@
 	}
 
 	var myDatepicker = {
-		'init' : function ( o ){
+		'init' : function( o ){
 			var cssstr = "positon:absolute; top:"+(o.top+o.height)+"px; left:"+o.left+"px; ",
 				wrapStr = ['<div class="myui-datepicker-wraper" style="'+cssstr+'">',
 							 '<div class="myui-datepicker">',
@@ -53,7 +53,9 @@
 	}
 
 	datepicker.prototype = {
+		'destroy' : function(){
 
+		}
 	}
 	
 	// exports.datepicker = datepicker;
