@@ -35,20 +35,26 @@
 		options.exist =false;
 
 		this.__o__ = options ;
-		myDatepicker.init( options );
+		myDatepicker.init.call( this , options );
 
 	}
 
 	var myDatepicker = {
 		'init' : function( o ){
-			var cssstr = "positon:absolute; top:"+(o.top+o.height)+"px; left:"+o.left+"px; ",
-				wrapStr = ['<div class="myui-datepicker-wraper" style="'+cssstr+'">',
-							 '<div class="myui-datepicker">',
-							 '<b class="leftBtn"></b>',
-							 '<b class="rightBtn"></b>',
-							 '<div class="datepicker_list">'];
-
-			console.log(wrapStr)
+			var cssstr = "position:absolute; top:"+(o.top+o.height)+"px; left:"+o.left+"px; ",
+				wrapStr = ['<div class="myui-datepicker">',
+								'<b class="leftBtn"></b>',
+								'<b class="rightBtn"></b>',
+								'<div class="datepicker_list">',
+								'</div>',
+						 	'</div>'];
+			var wrapDom = docu.createElement('div');
+				wrapDom.className = 'myui-datepicker-wraper';
+				wrapDom.setAttribute('style', cssstr);
+				wrapDom.innerHTML = wrapStr.join('');
+			this.datepickerWrap = docu.createDocumentFragment();
+			this.datepickerWrap.appendChild(wrapDom);
+			docu.body.appendChild(this.datepickerWrap);
 		}
 	}
 
