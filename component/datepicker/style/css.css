@@ -60,3 +60,7 @@
 	padding: 4px 5px;
 	text-align: center;
 }
+
+.myui-datepicker .datepicker_list .list table td.today{
+	background: #5792DC;
+}

@@ -57,7 +57,9 @@
 			this.datepickerWrap_datepList = this.datepickerWrap.childNodes[0].childNodes[0].lastChild;
 			// this.datepickerWrap_datepList.appendChild( myDatepicker.loadDateWrap() );
 			//docu.body.appendChild(this.datepickerWrap);
-			console.log(myDatepicker.getDaysNumForMonth(2013,2));
+			
+			// console.log(myDatepicker.getFirstDayForEverymonth(2013,11));
+			console.log(myDatepicker.fitOneMonth(2013,11));
 		},
 
 		/*
@@ -91,11 +93,7 @@
 		* @return { Number } 1-7
 		*/
 		'getFirstDayForEverymonth' : function( y , m ){
-			var myDate=new Date();
-			myDate.setFullYear(y);
-			myDate.setMonth(m-1);
-			myDate.setDate(1);
-			return myDate.getDay();
+			return new Date( y , m - 1 , 1).getDay();
 		},
 
 		/*
@@ -116,14 +114,52 @@
 		},
 
 		/*
-		* 拼装当前月份的日历结构
+		* 得到每个月的天数
 		* #y { Number } 年份
 		* #m { Number } 月份
-		* #d { Number } 选中的天数值
+		* @return { Number } 28||29||30||31
 		*/
-		'fittingDatePicker' : function( y , m , d ){
-			
-		}
+		'isToday' : function( y , m , d){
+			var _today = new Date();
+			return _today.getFullYear() === y && _today.getMonth()+1 === m && _today.getDate() === d;
+		},
+
+		/*
+		* 拼装一个月的日历结构
+		* #y { Number } 年份
+		* #m { Number } 月份
+		* @return  { Object DOMElement } 本月份的DOM结构
+		*/
+		'fitOneMonth' : function( y , m ){
+			var result = {} , _days , _firstDay , _thisMonth , _monthTableDom , _trNums , _trflag , _tdflag , i , j , _day = 1;
+			_days = myDatepicker.getDaysNumForMonth( y , m );
+			_firstDay = myDatepicker.getFirstDayForEverymonth( y , m );
+		    _trNums = Math.ceil( ( _days - 7 + _firstDay ) / 7 ) + 1;
+			_thisMonth = ['<h4>2014年1月</h4><table><thead><tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr></thead><tbody>'];
+			_monthTableDom = docu.createElement('div');
+			_monthTableDom.className = 'list';
+
+			for( i = 1 ; i <= _trNums ; i++){
+				_trflag = '<tr>'
+				for( j = 1 ; j <= 7 ; j++ ){
+					if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
+						_trflag += '<td></td>'; 
+					}else{
+						if(	myDatepicker.isToday( y , m , _day )){
+							_trflag += '<td class="today" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'>'+(_day++)+'</td>'; 
+						}else{
+							_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'>'+(_day++)+'</td>'; 
+						}
+					}
+				}
+				_trflag += '</tr>';
+				_thisMonth.push(_trflag);
+			}
+
+			_thisMonth.push('</tbody></table>');
+			_monthTableDom.innerHTML = _thisMonth.join('');
+			return _monthTableDom;
+		}	
 	}
 
 	datepicker.prototype = {
