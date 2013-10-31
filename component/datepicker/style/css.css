@@ -5,7 +5,7 @@
 
 .myui-datepicker{ 
 	border:1px solid #ccc; 
-	padding: 5px 30px; 
+	padding: 5px 30px 10px 30px; 
 	background: #fefefe;
 	position: relative; 
 	display: inline-block; 
@@ -16,17 +16,60 @@
 .myui-datepicker .leftBtn , .myui-datepicker .rightBtn{
 	position: absolute;
 	width: 20px;
-	height: 60px;
-	background: #f00;
-	top:20px;
+	height: 50px;
+	top:50%;
+	margin-top: -25px;
+	border:1px solid #ddd;
+	border-radius: 2px;
+}
+
+.myui-datepicker .leftBtn:hover , .myui-datepicker .rightBtn:hover{
+	cursor: pointer;
+}
+
+.myui-datepicker .leftBtn:hover:before {
+	cursor:pointer;
+	/*border-right-color:red;*/
+	opacity: 1;
+}
+
+.myui-datepicker .rightBtn:hover:before {
+	cursor:pointer;
+	/*border-left-color:red;*/
+	opacity: 1;
 }
 
 .myui-datepicker .leftBtn{
-	left: 10px;
+	left: 9px;
 }
 
 .myui-datepicker .rightBtn{
-	right: 10px;
+	right: 9px;
+}
+
+.myui-datepicker .leftBtn:before , .myui-datepicker .rightBtn:before{
+	content: '';
+	height: 0px;
+	width: 0px;
+	display: block;;
+	font-size: 0px;
+	border-radius: 3px;
+	opacity: 0.6;
+	-webkit-transition: all 0.2s ease-in-out 
+}
+
+.myui-datepicker .leftBtn:before{
+	margin:10px -11px;
+	border-width: 14px 12px 14px 14px ;
+	border-style: solid;
+	border-color:transparent #5792DC transparent transparent;
+}
+
+.myui-datepicker .rightBtn:before{
+	margin:10px 5px;
+	border-width: 14px 14px 14px 12px ;
+	border-style: solid;
+	border-color:transparent transparent transparent #5792DC;
 }
 
 .myui-datepicker .datepicker_list{
@@ -63,4 +106,5 @@
 
 .myui-datepicker .datepicker_list .list table td.today{
 	background: #5792DC;
+	color: #fff
 }

@@ -13,7 +13,7 @@
 
 	var defaults = {
 			 element : '',   //触发元素
-			 monthNum : 1,	 //显示月份数量
+			 monthNum : 2,	 //显示月份数量,建议2||3
 			 range : false,  //是否带有日期范围可控功能，默认无
 			 initDate : ''   //初始化date,默认与本地date一致
 	}
@@ -55,11 +55,8 @@
 			this.datepickerWrap = docu.createDocumentFragment();
 			this.datepickerWrap.appendChild(wrapDom);
 			this.datepickerWrap_datepList = this.datepickerWrap.childNodes[0].childNodes[0].lastChild;
-			// this.datepickerWrap_datepList.appendChild( myDatepicker.loadDateWrap() );
-			//docu.body.appendChild(this.datepickerWrap);
-			
-			// console.log(myDatepicker.getFirstDayForEverymonth(2013,11));
-			console.log(myDatepicker.fitOneMonth(2013,11));
+			this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( myDatepicker.getCurrnetYear() , myDatepicker.getCurrnetMonth() ) );
+			docu.body.appendChild(this.datepickerWrap);
 		},
 
 		/*
@@ -128,14 +125,15 @@
 		* 拼装一个月的日历结构
 		* #y { Number } 年份
 		* #m { Number } 月份
+		* #d { Number } 选中的日期
 		* @return  { Object DOMElement } 本月份的DOM结构
 		*/
-		'fitOneMonth' : function( y , m ){
+		'fitOneMonth' : function( y , m , d){
 			var result = {} , _days , _firstDay , _thisMonth , _monthTableDom , _trNums , _trflag , _tdflag , i , j , _day = 1;
 			_days = myDatepicker.getDaysNumForMonth( y , m );
 			_firstDay = myDatepicker.getFirstDayForEverymonth( y , m );
 		    _trNums = Math.ceil( ( _days - 7 + _firstDay ) / 7 ) + 1;
-			_thisMonth = ['<h4>2014年1月</h4><table><thead><tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr></thead><tbody>'];
+			_thisMonth = ['<h4>'+y+'年'+m+'月</h4><table><thead><tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr></thead><tbody>'];
 			_monthTableDom = docu.createElement('div');
 			_monthTableDom.className = 'list';
 
