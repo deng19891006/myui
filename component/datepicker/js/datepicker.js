@@ -55,7 +55,9 @@
 			this.datepickerWrap = docu.createDocumentFragment();
 			this.datepickerWrap.appendChild(wrapDom);
 			this.datepickerWrap_datepList = this.datepickerWrap.childNodes[0].childNodes[0].lastChild;
-			this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( myDatepicker.getCurrnetYear() , myDatepicker.getCurrnetMonth() ) );
+			for(var i = 0 ; i < this.__o__.monthNum; i++){
+				this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( myDatepicker.getCurrnetYear() , myDatepicker.getCurrnetMonth()+i ) );
+			}
 			docu.body.appendChild(this.datepickerWrap);
 		},
 
