@@ -39,15 +39,21 @@
 
 	}
 
+	var eventBinder = {
+
+	}
+
 	var myDatepicker = {
 		'init' : function( o ){
 			var cssstr = "position:absolute; top:"+(o.top+o.height)+"px; left:"+o.left+"px; ",
 				wrapStr = ['<div class="myui-datepicker">',
-								'<b class="leftBtn"></b>',
-								'<b class="rightBtn"></b>',
+								'<b class="prev-btn"></b>',
+								'<b class="next-btn"></b>',
 								'<div class="datepicker_list">',
 								'</div>',
-						 	'</div>'];
+						 	'</div>'],
+				currYear = myDatepicker.getCurrnetYear(),
+				currMonth = myDatepicker.getCurrnetMonth();
 			var wrapDom = docu.createElement('div');
 				wrapDom.className = 'myui-datepicker-wraper';
 				wrapDom.setAttribute('style', cssstr);
@@ -55,8 +61,16 @@
 			this.datepickerWrap = docu.createDocumentFragment();
 			this.datepickerWrap.appendChild(wrapDom);
 			this.datepickerWrap_datepList = this.datepickerWrap.childNodes[0].childNodes[0].lastChild;
+			this.dateObj={
+				'currYear' : currYear,
+				'currMonth' : currMonth 
+			};
 			for(var i = 0 ; i < this.__o__.monthNum; i++){
-				this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( myDatepicker.getCurrnetYear() , myDatepicker.getCurrnetMonth()+i ) );
+				if( currMonth > 12){
+					this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( currYear+1 , currMonth+i-12 ) );
+				}else{
+					this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( currYear , currMonth+i ) );
+				}
 			}
 			docu.body.appendChild(this.datepickerWrap);
 		},
@@ -146,9 +160,9 @@
 						_trflag += '<td></td>'; 
 					}else{
 						if(	myDatepicker.isToday( y , m , _day )){
-							_trflag += '<td class="today" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'>'+(_day++)+'</td>'; 
+							_trflag += '<td class="today" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day++)+'</a></td>'; 
 						}else{
-							_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'>'+(_day++)+'</td>'; 
+							_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day++)+'</a></td>'; 
 						}
 					}
 				}
@@ -168,7 +182,6 @@
 		}
 	}
 	
-	// exports.datepicker = datepicker;
 	module.exports = datepicker;
 
  });

@@ -13,7 +13,7 @@
 	*zoom:1;
 }
 
-.myui-datepicker .leftBtn , .myui-datepicker .rightBtn{
+.myui-datepicker .prev-btn , .myui-datepicker .next-btn{
 	position: absolute;
 	width: 20px;
 	height: 50px;
@@ -21,33 +21,27 @@
 	margin-top: -25px;
 	border:1px solid #ddd;
 	border-radius: 2px;
-}
-
-.myui-datepicker .leftBtn:hover , .myui-datepicker .rightBtn:hover{
 	cursor: pointer;
 }
 
-.myui-datepicker .leftBtn:hover:before {
-	cursor:pointer;
-	/*border-right-color:red;*/
+
+.myui-datepicker .prev-btn:hover:before {
 	opacity: 1;
 }
 
-.myui-datepicker .rightBtn:hover:before {
-	cursor:pointer;
-	/*border-left-color:red;*/
+.myui-datepicker .next-btn:hover:before {
 	opacity: 1;
 }
 
-.myui-datepicker .leftBtn{
-	left: 9px;
+.myui-datepicker .prev-btn-disable:hover:before {
+	opacity: 0.6;
 }
 
-.myui-datepicker .rightBtn{
-	right: 9px;
+.myui-datepicker .prev-btn-disable:hover:before {
+	opacity: 0.6;
 }
 
-.myui-datepicker .leftBtn:before , .myui-datepicker .rightBtn:before{
+.myui-datepicker .prev-btn:before , .myui-datepicker .next-btn:before{
 	content: '';
 	height: 0px;
 	width: 0px;
@@ -58,18 +52,31 @@
 	-webkit-transition: all 0.2s ease-in-out 
 }
 
-.myui-datepicker .leftBtn:before{
+.myui-datepicker .prev-btn:before{
 	margin:10px -11px;
 	border-width: 14px 12px 14px 14px ;
 	border-style: solid;
 	border-color:transparent #5792DC transparent transparent;
 }
 
-.myui-datepicker .rightBtn:before{
+.myui-datepicker .next-btn:before{
 	margin:10px 5px;
 	border-width: 14px 14px 14px 12px ;
 	border-style: solid;
 	border-color:transparent transparent transparent #5792DC;
+}
+
+
+.myui-datepicker .prev-btn{
+	left: 9px;
+}
+
+.myui-datepicker .next-btn{
+	right: 9px;
+}
+
+.myui-datepicker .prev-btn-disable:before{
+	border-color:transparent #ccc transparent transparent ;
 }
 
 .myui-datepicker .datepicker_list{
@@ -100,11 +107,29 @@
 
 .myui-datepicker .datepicker_list .list table td{
 	border:1px solid #ccc;
-	padding: 4px 5px;
 	text-align: center;
+	height: 24px;
+	width: 25px;
+	padding: 0;
 }
 
-.myui-datepicker .datepicker_list .list table td.today{
+.myui-datepicker .datepicker_list .list table .today a{
 	background: #5792DC;
-	color: #fff
+	color: #fff!important;
+}
+
+.myui-datepicker .datepicker_list .list table a,
+.myui-datepicker .datepicker_list .list table a:visited{
+	display: block;
+	width: 100%;
+	height: 100%;
+	line-height: 24px;
+	cursor: pointer;
+	color: #222;
+	text-decoration: none;
+}
+
+.myui-datepicker .datepicker_list .list table a:hover{
+	background: #5792DC;
+	color: #fff;
 }
