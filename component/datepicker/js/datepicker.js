@@ -40,14 +40,25 @@
 	}
 
 	var eventBinder = {
-
+		/*
+		* 上下个月按钮事件监听
+		*/
+		'floatMonth' : function ( e ){
+			var obj = this.dateObj,
+				_styleName = e.className;
+			if( _styleName.indexOf('disable') >= 0){
+				return ;
+			}
+			
+			// console.log(_styleName);
+		}
 	}
 
 	var myDatepicker = {
 		'init' : function( o ){
 			var cssstr = "position:absolute; top:"+(o.top+o.height)+"px; left:"+o.left+"px; ",
 				wrapStr = ['<div class="myui-datepicker">',
-								'<b class="prev-btn"></b>',
+								'<b class="prev-btn prev-btn-disable"></b>',
 								'<b class="next-btn"></b>',
 								'<div class="datepicker_list">',
 								'</div>',
@@ -64,7 +75,18 @@
 			this.dateObj={
 				'currYear' : currYear,
 				'currMonth' : currMonth 
-			};
+			}
+
+			//事件绑定
+			this.datepickerWrap_prevBtn = $(wrapDom).find('.prev-btn');
+			this.datepickerWrap_nextBtn = $(wrapDom).find('.next-btn');
+			this.datepickerWrap_prevBtn.on('click',function(){
+				eventBinder.floatMonth(this);
+			});
+			this.datepickerWrap_nextBtn.on('click',function(){
+				eventBinder.floatMonth(this);
+			});
+
 			for(var i = 0 ; i < this.__o__.monthNum; i++){
 				if( currMonth > 12){
 					this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( currYear+1 , currMonth+i-12 ) );
@@ -73,6 +95,8 @@
 				}
 			}
 			docu.body.appendChild(this.datepickerWrap);
+
+
 		},
 
 		/*
