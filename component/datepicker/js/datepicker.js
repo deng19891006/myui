@@ -51,7 +51,15 @@
 			}
 			
 			// console.log(_styleName);
+		},
+
+		/*
+		*时间段range监听
+		*/
+		'rangeDateListener':function(){
+			
 		}
+
 	}
 
 	var myDatepicker = {
