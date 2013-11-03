@@ -58,8 +58,14 @@
 		*/
 		'rangeDateListener':function(){
 			
-		}
+		},
 
+		/*
+		*关闭按钮监听
+		*/
+		'closeBtnListener':function(){
+			
+		}
 	}
 
 	var myDatepicker = {
