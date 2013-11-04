@@ -35,6 +35,7 @@
 		options.exist =false;
 		
 		this.__o__ = options ;
+		this.aaaa = 123;
 		myDatepicker.init.call( this , options );
 
 	}
@@ -43,14 +44,17 @@
 		/*
 		* 上下个月按钮事件监听
 		*/
-		'floatMonth' : function ( e ){
+		'floatMonth' : function ( ele ){
 			var obj = this.dateObj,
-				_styleName = e.className;
+				_styleName = ele.className;
 			if( _styleName.indexOf('disable') >= 0){
 				return ;
 			}
-			
-			// console.log(_styleName);
+			if( _styleName.indexOf('next-btn') >= 0 ){
+				myDatepicker.changeMonth.call( this , 'next');
+			}else{
+				myDatepicker.changeMonth.call( this , 'prev');
+			}
 		},
 
 		/*
@@ -70,7 +74,8 @@
 
 	var myDatepicker = {
 		'init' : function( o ){
-			var cssstr = "position:absolute; top:"+(o.top+o.height)+"px; left:"+o.left+"px; ",
+			var _this = this,
+				cssstr = "position:absolute; top:"+(o.top+o.height)+"px; left:"+o.left+"px; ",
 				wrapStr = ['<div class="myui-datepicker">',
 								'<b class="prev-btn prev-btn-disable"></b>',
 								'<b class="next-btn"></b>',
@@ -87,29 +92,30 @@
 			this.datepickerWrap.appendChild(wrapDom);
 			this.datepickerWrap_datepList = this.datepickerWrap.childNodes[0].childNodes[0].lastChild;
 			this.dateObj={
-				'currYear' : currYear,
-				'currMonth' : currMonth 
+				'farLeftYear' : currYear,
+				'farLeftMonth' : currMonth, 
+				'farRightYear' : currMonth+o.monthNum-1 > 12 ? currYear+1 : currYear, 
+				'farRightMonth' : currMonth+o.monthNum-1 > 12 ? o.monthNum - (12 - currMonth + 1)  :  currMonth+o.monthNum-1
 			}
 
 			//事件绑定
 			this.datepickerWrap_prevBtn = $(wrapDom).find('.prev-btn');
 			this.datepickerWrap_nextBtn = $(wrapDom).find('.next-btn');
-			this.datepickerWrap_prevBtn.on('click',function(){
-				eventBinder.floatMonth(this);
+			this.datepickerWrap_prevBtn.on('click',function(e){
+				eventBinder.floatMonth.call( _this , this);
 			});
 			this.datepickerWrap_nextBtn.on('click',function(){
-				eventBinder.floatMonth(this);
+				eventBinder.floatMonth.call( _this , this);
 			});
 
 			for(var i = 0 ; i < this.__o__.monthNum; i++){
-				if( currMonth > 12){
+				if( currMonth+i > 12){
 					this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( currYear+1 , currMonth+i-12 ) );
 				}else{
 					this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( currYear , currMonth+i ) );
 				}
 			}
 			docu.body.appendChild(this.datepickerWrap);
-
 
 		},
 
@@ -176,6 +182,31 @@
 		},
 
 		/*
+		*重置年份
+        *#direy { string } 触发按钮的方向
+		*/
+		'resetMateObj':function( dire ){
+			var dateObj = this.dateObj,
+				farLeftYear = dateObj.farLeftYear,
+				farLeftMonth = dateObj.farLeftMonth,
+				farRightYear = dateObj.farRightYear,
+				farRightMonth = dateObj.farRightMonth;
+			if( dire === 'next'){
+				dateObj.farLeftYear = farLeftMonth === 12 ? farLeftYear+1 : farLeftYear;
+				dateObj.farLeftMonth = farLeftMonth === 12 ? 1 : farLeftMonth+1;
+				dateObj.farRightYear = farRightMonth === 12 ? farRightYear+1 : farRightYear;
+				dateObj.farRightMonth = farRightMonth === 12 ? 1 : farRightMonth+1;
+				// farLeftMonth === 12 ? dateObj.farLeftYear+=1; dateObj.farLeftMonth=1;  
+				// 					: dateObj.farLeftYear=farLeftYear; dateObj.farLeftMonth+=1;
+				// farRightMonth === 12 ? dateObj.farRightYear+=1;dateObj.farRightMonth=1;
+				// 					: dateObj.farRightYear=farRightYear; dateObj.farLeftMonth+=1;
+				console.log(this.dateObj)
+			}else{
+
+			}
+		},
+
+		/*
 		* 拼装一个月的日历结构
 		* #y { Number } 年份
 		* #m { Number } 月份
@@ -211,7 +242,31 @@
 			_thisMonth.push('</tbody></table>');
 			_monthTableDom.innerHTML = _thisMonth.join('');
 			return _monthTableDom;
-		}	
+		},
+
+		/*
+		* 改变月份
+		*/	
+		'changeMonth' : function( dire ){
+			var dateObj = this.dateObj,
+				farLeftYear = dateObj.farLeftYear,
+				farLeftMonth = dateObj.farLeftMonth,
+				farRightYear = dateObj.farRightYear,
+				farRightMonth = dateObj.farRightMonth,
+				newMonthDom,
+				_o_ = this.__o__;
+			switch (dire){
+				case 'next':
+					var _y = farRightMonth === 12 ? farRightYear+1 : farRightYear,
+						_m = farRightMonth === 12 ? 1 : farRightMonth+1;
+					newMonthDom = myDatepicker.fitOneMonth( _y, _m );
+					this.datepickerWrap_datepList.appendChild( newMonthDom );
+					myDatepicker.resetMateObj.call( this , dire)
+					break;
+				case 'prev':
+					break;
+			}
+		}
 	}
 
 	datepicker.prototype = {
