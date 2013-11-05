@@ -258,9 +258,11 @@
 			switch (dire){
 				case 'next':
 					var _y = farRightMonth === 12 ? farRightYear+1 : farRightYear,
-						_m = farRightMonth === 12 ? 1 : farRightMonth+1;
+						_m = farRightMonth === 12 ? 1 : farRightMonth+1,
+						_oldDate = this.datepickerWrap_datepList.firstChild;
 					newMonthDom = myDatepicker.fitOneMonth( _y, _m );
 					this.datepickerWrap_datepList.appendChild( newMonthDom );
+					this.datepickerWrap_datepList.removeChild(_oldDate);
 					myDatepicker.resetMateObj.call( this , dire)
 					break;
 				case 'prev':
