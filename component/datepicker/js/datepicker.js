@@ -242,7 +242,8 @@
 						_trflag += '<td></td>'; 
 					}else{
 						if(	myDatepicker.isToday( y , m , _day )){
-							_trflag += '<td class="today" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day++)+'</a></td>'; 
+							_trflag += '<td class="today" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">今天</a></td>';
+							_day++; 
 						}else{
 							_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day++)+'</a></td>'; 
 						}

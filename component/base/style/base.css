@@ -1,5 +1,8 @@
 *{margin:0; font-size: 12px; font-family: "微软雅黑";}
 
+html,body{
+      -webkit-text-size-adjust:none;
+}
 .clearfix:before,.clearfix:after {
    content:"";
    display:table;
