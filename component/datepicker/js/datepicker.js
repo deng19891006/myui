@@ -92,6 +92,8 @@
 			this.datepickerWrap.appendChild(wrapDom);
 			this.datepickerWrap_datepList = this.datepickerWrap.childNodes[0].childNodes[0].lastChild;
 			this.dateObj={
+				'currYear' : currYear,
+				'currMonth' : currMonth,
 				'farLeftYear' : currYear,
 				'farLeftMonth' : currMonth, 
 				'farRightYear' : currMonth+o.monthNum-1 > 12 ? currYear+1 : currYear, 
@@ -185,25 +187,36 @@
 		*重置年份
         *#direy { string } 触发按钮的方向
 		*/
-		'resetMateObj':function( dire ){
+		'resetDateObj':function( dire ){
 			var dateObj = this.dateObj,
+				currYear = dateObj.currYear,
+				currMonth = dateObj.currMonth,
 				farLeftYear = dateObj.farLeftYear,
 				farLeftMonth = dateObj.farLeftMonth,
 				farRightYear = dateObj.farRightYear,
-				farRightMonth = dateObj.farRightMonth;
+				farRightMonth = dateObj.farRightMonth,
+				leftbtn = this.datepickerWrap_prevBtn,
+				rightbtn = this.datepickerWrap_nextBtn;
+
 			if( dire === 'next'){
 				dateObj.farLeftYear = farLeftMonth === 12 ? farLeftYear+1 : farLeftYear;
 				dateObj.farLeftMonth = farLeftMonth === 12 ? 1 : farLeftMonth+1;
 				dateObj.farRightYear = farRightMonth === 12 ? farRightYear+1 : farRightYear;
 				dateObj.farRightMonth = farRightMonth === 12 ? 1 : farRightMonth+1;
-				// farLeftMonth === 12 ? dateObj.farLeftYear+=1; dateObj.farLeftMonth=1;  
-				// 					: dateObj.farLeftYear=farLeftYear; dateObj.farLeftMonth+=1;
-				// farRightMonth === 12 ? dateObj.farRightYear+=1;dateObj.farRightMonth=1;
-				// 					: dateObj.farRightYear=farRightYear; dateObj.farLeftMonth+=1;
-				console.log(this.dateObj)
 			}else{
-
+				dateObj.farLeftYear = farLeftMonth === 1 ? farLeftYear-1 : farLeftYear;
+				dateObj.farLeftMonth = farLeftMonth === 1 ? 12 : farLeftMonth-1;
+				dateObj.farRightYear = farRightMonth === 1 ? farRightYear-1 : farRightYear;
+				dateObj.farRightMonth = farRightMonth === 1 ? 12 : farRightMonth-1;
 			}
+
+			if( currYear === dateObj.farLeftYear && currMonth === dateObj.farLeftMonth){
+				if( leftbtn[0].className.indexOf('prev-btn-disable') < 0 ){
+					leftbtn.addClass('prev-btn-disable');
+				}
+			}else{
+				leftbtn.removeClass('prev-btn-disable');
+			} 
 		},
 
 		/*
@@ -263,9 +276,16 @@
 					newMonthDom = myDatepicker.fitOneMonth( _y, _m );
 					this.datepickerWrap_datepList.appendChild( newMonthDom );
 					this.datepickerWrap_datepList.removeChild(_oldDate);
-					myDatepicker.resetMateObj.call( this , dire)
+					myDatepicker.resetDateObj.call( this , dire)
 					break;
 				case 'prev':
+					var _y = farLeftMonth === 1 ? farLeftYear-1 : farLeftYear,
+						_m = farLeftMonth === 1 ? 12 : farLeftMonth-1,
+						_oldDate = this.datepickerWrap_datepList.lastChild;
+					newMonthDom = myDatepicker.fitOneMonth( _y, _m );
+					this.datepickerWrap_datepList.insertBefore( newMonthDom , this.datepickerWrap_datepList.firstChild );
+					this.datepickerWrap_datepList.removeChild(_oldDate);
+					myDatepicker.resetDateObj.call( this , dire);
 					break;
 			}
 		}
