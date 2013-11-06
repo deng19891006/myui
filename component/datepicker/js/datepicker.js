@@ -1,5 +1,5 @@
 /*
- *@desc:datepicker 自定义日历控件
+ *@desc:datepicker 自定义日历控件（类似订票平台时间控件）
  */
 
  define(function(require,exports,module){
@@ -14,7 +14,7 @@
 	var defaults = {
 			 element : '',   //触发元素
 			 monthNum : 2,	 //显示月份数量,建议2||3
-			 range : false,  //是否带有日期范围可控功能，默认无
+			 range : true,  //是否带有日期范围可控功能，默认则为时间段
 			 initDate : ''   //初始化date,默认与本地date一致
 	}
 
@@ -32,10 +32,11 @@
 		options.left = target.offsetLeft;
 		options.top = target.offsetTop;
 		options.height = target.offsetHeight;
-		options.exist =false;
 		
+		//封装this对象
+		this.firstClick = false;
 		this.__o__ = options ;
-		this.aaaa = 123;
+
 		myDatepicker.init.call( this , options );
  	
 	}
