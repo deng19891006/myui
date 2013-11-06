@@ -37,7 +37,7 @@
 		this.__o__ = options ;
 		this.aaaa = 123;
 		myDatepicker.init.call( this , options );
-
+ 	
 	}
 
 	var eventBinder = {
@@ -173,14 +173,27 @@
 		},
 
 		/*
-		* 得到每个月的天数
+		*  返回与本地当天的时间比较值
 		* #y { Number } 年份
 		* #m { Number } 月份
-		* @return { Number } 28||29||30||31
+		* #d { Number } 天数
+		* @return { Number } 0 当前时间相等，即今天
+		* @return { Number } -1 小于当天时间
+		* @return { Number } 1 大于当天时间
 		*/
-		'isToday' : function( y , m , d){
-			var _today = new Date();
-			return _today.getFullYear() === y && _today.getMonth()+1 === m && _today.getDate() === d;
+		'compareToToday' : function( y , m , d){
+			var _today = new Date(),
+				_y = _today.getFullYear(),
+				_m = _today.getMonth()+1,
+				_d = _today.getDate();
+		   if( _y === y && _m === m && _d === d ){
+		   		return 0;
+		   }
+		   if( (_y < y) || ( _y = y && _m < m ) || ( (_y = y) && (_m = m) && (_d < d) ) ){
+		   		return 1;
+		   }else{
+		   		return -1;
+		   }
 		},
 
 		/*
@@ -241,12 +254,14 @@
 					if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
 						_trflag += '<td></td>'; 
 					}else{
-						if(	myDatepicker.isToday( y , m , _day )){
+						if(	myDatepicker.compareToToday( y , m , _day ) === -1 ){
+							_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>';
+						}else if( myDatepicker.compareToToday( y , m , _day ) === 0 ){
 							_trflag += '<td class="today" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">今天</a></td>';
-							_day++; 
 						}else{
-							_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day++)+'</a></td>'; 
+							_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
 						}
+					    _day++; 
 					}
 				}
 				_trflag += '</tr>';

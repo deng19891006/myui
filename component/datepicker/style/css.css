@@ -113,11 +113,6 @@
 	padding: 0;
 }
 
-.myui-datepicker .datepicker_list .list table .today a{
-	background: #5792DC;
-	color: #fff!important;
-}
-
 .myui-datepicker .datepicker_list .list table a,
 .myui-datepicker .datepicker_list .list table a:visited{
 	display: block;
@@ -132,4 +127,15 @@
 .myui-datepicker .datepicker_list .list table a:hover{
 	background: #5792DC;
 	color: #fff;
+}
+
+.myui-datepicker .datepicker_list .list table .disable a{
+	/*background: #e1e1e1;*/
+	background: #fff;
+	color: #ddd!important;
+}
+
+.myui-datepicker .datepicker_list .list table .today a{
+	background: #5792DC;
+	color: #fff!important;
 }
