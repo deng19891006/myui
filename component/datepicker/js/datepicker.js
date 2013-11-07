@@ -14,8 +14,10 @@
 	var defaults = {
 			 element : '',   //触发元素
 			 monthNum : 2,	 //显示月份数量,建议2||3
-			 range : true,  //是否带有日期范围可控功能，默认则为时间段
-			 initDate : ''   //初始化date,默认与本地date一致
+			 range : true,   //是否带有日期范围可控功能，默认则为时间段
+			 initDate : '',  //初始化date,默认与本地date一致
+			 startDate :'',  //设置开始时间 20131010
+			 endDate:''		 //设置结束时间 20131111
 	}
 
 	var datepicker = function( options ){
@@ -62,7 +64,28 @@
 		*时间段range监听
 		*/
 		'rangeDateListener':function(){
-			
+			var _this = this,
+				_tdlist ;
+			$(this.datepickerWrap_datepList).on('click','td',function(){
+				var $this = $(this),
+					date = $this.attr('date');
+					if( !$this.hasClass('disable') && date !== undefined ){
+						$(_this.datepickerWrap_datepList).find('td').removeClass('clicked');
+					 	$this.addClass('clicked');
+					 	_this.firstClick = !_this.firstClick;
+					}
+			}).on('mouseover','td',function(){
+				var $this = $(this),
+					date = $this.attr('date');
+				if( !_this.firstClick || $this.hasClass('disable') || $this.hasClass('startdate') || date === undefined  ){
+					return; 
+				}
+				
+				$(_this.datepickerWrap_datepList).find('td').each(function(){
+
+				});
+
+			})			
 		},
 
 		/*
@@ -110,7 +133,7 @@
 			this.datepickerWrap_nextBtn.on('click',function(){
 				eventBinder.floatMonth.call( _this , this);
 			});
-
+			eventBinder.rangeDateListener.call( _this )
 			for(var i = 0 ; i < this.__o__.monthNum; i++){
 				if( currMonth+i > 12){
 					this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( currYear+1 , currMonth+i-12 ) );
@@ -258,7 +281,7 @@
 						if(	myDatepicker.compareToToday( y , m , _day ) === -1 ){
 							_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>';
 						}else if( myDatepicker.compareToToday( y , m , _day ) === 0 ){
-							_trflag += '<td class="today" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">今天</a></td>';
+							_trflag += '<td class="startdate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">今天</a></td>';
 						}else{
 							_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
 						}
