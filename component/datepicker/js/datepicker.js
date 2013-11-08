@@ -1,5 +1,5 @@
 /*
- *@desc:datepicker 自定义日历控件（类似订票平台时间控件）
+ *@desc:datepicker 自定义日历控件（类似订票平台日历控件）
  */
 
  define(function(require,exports,module){
@@ -103,7 +103,6 @@
 				$(_this.datepickerWrap_datepList).find('td').each(function(){
 
 				});
-
 			})			
 		},
 
@@ -393,4 +392,3 @@
 	module.exports = datepicker;
 
  });
-
