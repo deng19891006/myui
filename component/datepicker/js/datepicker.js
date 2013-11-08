@@ -76,18 +76,23 @@
 			var _this = this,
 				_tdlist ;
 			$(this.datepickerWrap_datepList).on('click','td',function(){
+
 				var $this = $(this),
 					date = $this.attr('date');
+
 					if( !$this.hasClass('disable') && date !== undefined ){
-						$( _this._o_.startDateTrigger ).val( date );
 						myDatepicker.close.call( _this );
+						$( _this.currentTrigger ).val( date );
 						//when trigger is startDte input
 						if( _this.dateType = 'start' ){
-							myDatepicker.setStartDate.call( this , date );
+							myDatepicker.setStartDate.call( _this , $this , date  );
+						}else{
+
 						}
 					}
 					
 			}).on('mouseover','td',function(){
+
 				var $this = $(this),
 					date = $this.attr('date');
 				if( !_this.firstClick || $this.hasClass('disable') || $this.hasClass('startdate') || date === undefined  ){
@@ -157,7 +162,7 @@
 				docu.body.appendChild(this.datepickerWrap);
 				this.inited = true;
 			}else{
-				myDatepicker.show.call(this);
+				myDatepicker.show.call( this , offset );
 			}
 		},
 
@@ -171,15 +176,20 @@
 		/*
 		*显示当前日历
 		*/
-		'show' : function(){
+		'show' : function( offset ){
+			$(this.datepickerDom).css({
+				'top' : offset.top+offset.height+"px",
+				'left' : offset.left+"px"
+			})
 			$(this.datepickerDom).show();
 		},
 
 		/*
 		*设置startDate
 		*/
-		'setStartDate' :function(){
-			
+		'setStartDate' : function( ele , date ){
+			$(this.datepickerWrap_datepList).find('td.startdate').removeClass('startdate');
+			ele.addClass('startdate');
 		},
 
 		/*
