@@ -12,7 +12,8 @@
 		docu = win.document;
 
 	var defaults = {
-			 element : '',   //触发元素
+			 startDateElement:'',//开始时间日期触发元素
+			 endDateElement:'',//结束日期触发元素
 			 monthNum : 2,	 //显示月份数量,建议2||3
 			 range : true,   //是否带有日期范围可控功能，默认则为时间段
 			 initDate : '',  //初始化date,默认与本地date一致
@@ -27,20 +28,28 @@
 		}
 
 		options = $.extend( defaults , options );
+		options.startDateTrigger = docu.getElementById(options.startDateElement);
+		options.endDateTrigger = docu.getElementById(options.endDateElement);
 
-		var target = docu.getElementById(options.element);
-
-		options.target = target;
-		options.left = target.offsetLeft;
-		options.top = target.offsetTop;
-		options.height = target.offsetHeight;
-		
 		//封装this对象
 		this.firstClick = false;
-		this.__o__ = options ;
+		this._o_ = options ;
+		this.inited = false;
 
-		myDatepicker.init.call( this , options );
- 	
+		var _this = this;
+
+		$(options.startDateTrigger).on('click',function(){
+			_this.currentTrigger = this;
+			_this.dateType = 'start';
+			myDatepicker.init.call( _this , options , {'left':this.offsetLeft,'top':this.offsetTop,'height':this.offsetHeight});
+		})
+
+		$(options.endDateTrigger).on('click',function(){
+			_this.currentTrigger = this;
+			_this.dateType = 'end';
+			myDatepicker.init.call( _this , options , {'left':this.offsetLeft,'top':this.offsetTop,'height':this.offsetHeight});
+		})
+ 	 
 	}
 
 	var eventBinder = {
@@ -70,17 +79,20 @@
 				var $this = $(this),
 					date = $this.attr('date');
 					if( !$this.hasClass('disable') && date !== undefined ){
-						$(_this.datepickerWrap_datepList).find('td').removeClass('clicked');
-					 	$this.addClass('clicked');
-					 	_this.firstClick = !_this.firstClick;
+						$( _this._o_.startDateTrigger ).val( date );
+						myDatepicker.close.call( _this );
+						//when trigger is startDte input
+						if( _this.dateType = 'start' ){
+							myDatepicker.setStartDate.call( this , date );
+						}
 					}
+					
 			}).on('mouseover','td',function(){
 				var $this = $(this),
 					date = $this.attr('date');
 				if( !_this.firstClick || $this.hasClass('disable') || $this.hasClass('startdate') || date === undefined  ){
 					return; 
 				}
-				
 				$(_this.datepickerWrap_datepList).find('td').each(function(){
 
 				});
@@ -92,57 +104,82 @@
 		*关闭按钮监听
 		*/
 		'closeBtnListener':function(){
-			
 		}
 	}
 
 	var myDatepicker = {
-		'init' : function( o ){
-			var _this = this,
-				cssstr = "position:absolute; top:"+(o.top+o.height)+"px; left:"+o.left+"px; ",
-				wrapStr = ['<div class="myui-datepicker">',
-								'<b class="prev-btn prev-btn-disable"></b>',
-								'<b class="next-btn"></b>',
-								'<div class="datepicker_list">',
-								'</div>',
-						 	'</div>'],
-				currYear = myDatepicker.getCurrnetYear(),
-				currMonth = myDatepicker.getCurrnetMonth();
-			var wrapDom = docu.createElement('div');
-				wrapDom.className = 'myui-datepicker-wraper';
-				wrapDom.setAttribute('style', cssstr);
-				wrapDom.innerHTML = wrapStr.join('');
-			this.datepickerWrap = docu.createDocumentFragment();
-			this.datepickerWrap.appendChild(wrapDom);
-			this.datepickerWrap_datepList = this.datepickerWrap.childNodes[0].childNodes[0].lastChild;
-			this.dateObj={
-				'currYear' : currYear,
-				'currMonth' : currMonth,
-				'farLeftYear' : currYear,
-				'farLeftMonth' : currMonth, 
-				'farRightYear' : currMonth+o.monthNum-1 > 12 ? currYear+1 : currYear, 
-				'farRightMonth' : currMonth+o.monthNum-1 > 12 ? o.monthNum - (12 - currMonth + 1)  :  currMonth+o.monthNum-1
-			}
-
-			//事件绑定
-			this.datepickerWrap_prevBtn = $(wrapDom).find('.prev-btn');
-			this.datepickerWrap_nextBtn = $(wrapDom).find('.next-btn');
-			this.datepickerWrap_prevBtn.on('click',function(e){
-				eventBinder.floatMonth.call( _this , this);
-			});
-			this.datepickerWrap_nextBtn.on('click',function(){
-				eventBinder.floatMonth.call( _this , this);
-			});
-			eventBinder.rangeDateListener.call( _this )
-			for(var i = 0 ; i < this.__o__.monthNum; i++){
-				if( currMonth+i > 12){
-					this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( currYear+1 , currMonth+i-12 ) );
-				}else{
-					this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( currYear , currMonth+i ) );
+		'init' : function( o , offset){
+			if(!this.inited){
+				var _this = this,
+					cssstr = "position:absolute; top:"+(offset.top+offset.height)+"px; left:"+offset.left+"px; ",
+					wrapStr = ['<div class="myui-datepicker">',
+									'<b class="prev-btn prev-btn-disable"></b>',
+									'<b class="next-btn"></b>',
+									'<div class="datepicker_list">',
+									'</div>',
+							 	'</div>'],
+					currYear = myDatepicker.getCurrnetYear(),
+					currMonth = myDatepicker.getCurrnetMonth();
+				var wrapDom = docu.createElement('div');
+					wrapDom.className = 'myui-datepicker-wraper';
+					wrapDom.setAttribute('style', cssstr);
+					wrapDom.innerHTML = wrapStr.join('');
+				this.datepickerDom = wrapDom;
+				this.datepickerWrap = docu.createDocumentFragment();
+				this.datepickerWrap.appendChild(wrapDom);
+				this.datepickerWrap_datepList = this.datepickerWrap.childNodes[0].childNodes[0].lastChild;
+				this.dateObj={
+					'currYear' : currYear,
+					'currMonth' : currMonth,
+					'farLeftYear' : currYear,
+					'farLeftMonth' : currMonth, 
+					'farRightYear' : currMonth+o.monthNum-1 > 12 ? currYear+1 : currYear, 
+					'farRightMonth' : currMonth+o.monthNum-1 > 12 ? o.monthNum - (12 - currMonth + 1)  :  currMonth+o.monthNum-1
 				}
-			}
-			docu.body.appendChild(this.datepickerWrap);
 
+				//事件绑定
+				this.datepickerWrap_prevBtn = $(wrapDom).find('.prev-btn');
+				this.datepickerWrap_nextBtn = $(wrapDom).find('.next-btn');
+				this.datepickerWrap_prevBtn.on('click',function(e){
+					eventBinder.floatMonth.call( _this , this);
+				});
+				this.datepickerWrap_nextBtn.on('click',function(){
+					eventBinder.floatMonth.call( _this , this);
+				});
+				eventBinder.rangeDateListener.call( _this )
+				for(var i = 0 ; i < this._o_.monthNum; i++){
+					if( currMonth+i > 12){
+						this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( currYear+1 , currMonth+i-12 ) );
+					}else{
+						this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( currYear , currMonth+i ) );
+					}
+				}
+				docu.body.appendChild(this.datepickerWrap);
+				this.inited = true;
+			}else{
+				myDatepicker.show.call(this);
+			}
+		},
+
+		/*
+		*关闭当前日历
+		*/
+		'close' : function(){
+			$(this.datepickerDom).hide();
+		},
+
+		/*
+		*显示当前日历
+		*/
+		'show' : function(){
+			$(this.datepickerDom).show();
+		},
+
+		/*
+		*设置startDate
+		*/
+		'setStartDate' :function(){
+			
 		},
 
 		/*
@@ -282,6 +319,8 @@
 							_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>';
 						}else if( myDatepicker.compareToToday( y , m , _day ) === 0 ){
 							_trflag += '<td class="startdate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">今天</a></td>';
+							_trflag += '<td class="enddate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+(_day+1):_day+1))+'><a href="javascript:;">'+(_day+1)+'</a></td>';
+							j++;
 						}else{
 							_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
 						}
@@ -307,7 +346,7 @@
 				farRightYear = dateObj.farRightYear,
 				farRightMonth = dateObj.farRightMonth,
 				newMonthDom,
-				_o_ = this.__o__;
+				_o_ = this._o_;
 			switch (dire){
 				case 'next':
 					var _y = farRightMonth === 12 ? farRightYear+1 : farRightYear,

@@ -12,7 +12,9 @@
 	</style>
 </head>
 <body>
-<input type="text" placeholder='click' id="date">
+<input type="text" placeholder='startDate' id="MYUI_startDate">
+<input type="text" placeholder='endDate' id="MYUI_endDate">
+
 <div class="myui-datepicker-wraper" style="float:right;">
 	<div class="myui-datepicker">
 			<b class="prev-btn"></b>
@@ -160,7 +162,8 @@
 	seajs.use(["./js/datepicker","jquery"],function(datepicker,$){
 		$(function(){
 			 datepicker({
-			 	element:"date"
+			 	startDateElement:"MYUI_startDate",
+			 	endDateElement:"MYUI_endDate"
 			 })
 		})
 	});

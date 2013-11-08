@@ -124,10 +124,10 @@
 	text-decoration: none;
 }
 
-/*.myui-datepicker .datepicker_list .list table a:hover{
+.myui-datepicker .datepicker_list .list table a:hover{
 	background: #5792DC;
 	color: #fff;
-}*/
+}
 
 .myui-datepicker .datepicker_list .list table .disable a{
 	/*background: #e1e1e1;*/
@@ -137,6 +137,11 @@
 
 .myui-datepicker .datepicker_list .list table .startdate a{
 	background: #5792DC;
+	color: #fff!important;
+}
+
+.myui-datepicker .datepicker_list .list table .enddate a{
+	background: #E2AD44;
 	color: #fff!important;
 }
 
