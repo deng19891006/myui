@@ -80,19 +80,21 @@
 				var $this = $(this),
 					date = $this.attr('date');
 
-					if( !$this.hasClass('disable') && date !== undefined ){
-						myDatepicker.close.call( _this );
-						$( _this.currentTrigger ).val( date );
-						//when trigger is startDte input
-						if( _this.dateType = 'start' ){
-							myDatepicker.setStartDate.call( _this , $this , date  );
-						}else{
+				if( !$this.hasClass('disable') && date !== undefined ){
+					myDatepicker.close.call( _this );
+					$( _this.currentTrigger ).val( date );
+					//when trigger is startDte input
+					if( _this.dateType = 'start' ){
+						myDatepicker.setStartDate.call( _this , $this , date  );
+					}else{
 
-						}
 					}
+				}
 					
 			}).on('mouseover','td',function(){
-
+				if( _this.dateType === 'start' ){
+					return;
+				}
 				var $this = $(this),
 					date = $this.attr('date');
 				if( !_this.firstClick || $this.hasClass('disable') || $this.hasClass('startdate') || date === undefined  ){
@@ -151,7 +153,9 @@
 				this.datepickerWrap_nextBtn.on('click',function(){
 					eventBinder.floatMonth.call( _this , this);
 				});
-				eventBinder.rangeDateListener.call( _this )
+
+				eventBinder.rangeDateListener.call( _this );
+
 				for(var i = 0 ; i < this._o_.monthNum; i++){
 					if( currMonth+i > 12){
 						this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( currYear+1 , currMonth+i-12 ) );
