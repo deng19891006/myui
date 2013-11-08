@@ -150,6 +150,11 @@
 	color: #fff!important;
 }
 
+.myui-datepicker .datepicker_list .list table .hover a{
+	background: #bbddf4;
+	color: #fff!important;
+}
+
 .myui-datepicker .datepicker_list .list table .mouseover a{
 	background: #E2AD44;
 	color: #fff!important;

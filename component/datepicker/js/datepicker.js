@@ -48,6 +48,7 @@
 			_this.currentTrigger = this;
 			_this.dateType = 'end';
 			myDatepicker.init.call( _this , options , {'left':this.offsetLeft,'top':this.offsetTop,'height':this.offsetHeight});
+			myDatepicker.resetDateWithStartDate.call( _this );
 		})
  	 
 	}
@@ -97,12 +98,15 @@
 				}
 				var $this = $(this),
 					date = $this.attr('date');
-				if( !_this.firstClick || $this.hasClass('disable') || $this.hasClass('startdate') || date === undefined  ){
+				if( $this.hasClass('disable') || $this.hasClass('startdate') ){
 					return; 
 				}
-				$(_this.datepickerWrap_datepList).find('td').each(function(){
+				myDatepicker.beforeSetRangeDate.call( _this , date );
 
-				});
+			}).on('mouseout','td',function(){
+				if( _this.dateType === 'start' ){
+					return;
+				}
 			})			
 		},
 
@@ -307,6 +311,42 @@
 		},
 
 		/*
+		* reset one datepicker with startdate
+		* #startDate { string } 日期
+		* 
+		*/
+		'resetDateWithStartDate' : function( ){
+			var _this = this;
+			$(_this.datepickerWrap_datepList).find('td').each(function(){
+				var _$this = $(this);
+				if( _$this.hasClass('startdate') ){
+					return false;
+				}
+				if( !_$this.hasClass('disable') ){
+					_$this.addClass('disable');
+				}
+			});
+		},
+
+		/*
+		* hover range datepicker
+		* 
+		*/
+		'beforeSetRangeDate' : function( date ){
+			var _this = this;
+			$(_this.datepickerWrap_datepList).find('td').each(function(){
+				var _$this = $(this);
+				if( _$this.attr('date') === date ){
+					return false;
+				}
+
+				if( !_$this.hasClass('disable') && !_$this.hasClass('hover') && !_$this.hasClass('startdate')){
+					_$this.addClass('hover');
+				}
+			});
+		},
+
+		/*
 		* 拼装一个月的日历结构
 		* #y { Number } 年份
 		* #m { Number } 月份
@@ -326,7 +366,7 @@
 				_trflag = '<tr>'
 				for( j = 1 ; j <= 7 ; j++ ){
 					if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
-						_trflag += '<td></td>'; 
+						_trflag += '<td class="disable"></td>'; 
 					}else{
 						if(	myDatepicker.compareToToday( y , m , _day ) === -1 ){
 							_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>';
