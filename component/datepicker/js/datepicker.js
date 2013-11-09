@@ -114,6 +114,7 @@
 		*关闭按钮监听
 		*/
 		'closeBtnListener':function(){
+			
 		}
 	}
 
