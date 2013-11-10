@@ -201,6 +201,12 @@
 		},
 
 		/*
+		*设置endDate
+		*/
+		'setEndDate' : function( ele , date ){
+		},
+
+		/*
 		* 得到当前年份
 		* @return { Number } 年份
 		*/
