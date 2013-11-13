@@ -140,10 +140,7 @@
 	color: #fff!important;
 }
 
-.myui-datepicker .datepicker_list .list table .enddate a{
-	background: #E2AD44;
-	color: #fff!important;
-}
+
 
 .myui-datepicker .datepicker_list .list table .clicked a{
 	background: #5792DC;
@@ -152,6 +149,16 @@
 
 .myui-datepicker .datepicker_list .list table .hover a{
 	background: #bbddf4;
+	color: #fff!important;
+}
+
+.myui-datepicker .datepicker_list .list table .rangedate a{
+	background: #D9F2FF;
+	color: #000!important;
+}
+
+.myui-datepicker .datepicker_list .list table .enddate a{
+	background: #E2AD44;
 	color: #fff!important;
 }
 
