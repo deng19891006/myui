@@ -36,13 +36,14 @@
 		this._o_ = options ;
 		this.inited = false; 		//判断是否第一次加载
 		this.isSetEndDate = false;  //标志是否设置过结束日历
-
+		this.localTodayDate = myDatepicker.getLocalTodayDate();
 		var _this = this;
 
 		$(options.startDateTrigger).on('click',function(){
 			_this.currentTrigger = this;
 			_this.dateType = 'start';
 			myDatepicker.init.call( _this , options , {'left':this.offsetLeft,'top':this.offsetTop,'height':this.offsetHeight});
+			myDatepicker.resetDateWithEndDate.call( _this );
 		})
 
 		$(options.endDateTrigger).on('click',function(){
@@ -90,7 +91,6 @@
 						myDatepicker.setStartDate.call( _this , $this , date  );
 					}else{
 						myDatepicker.setEndDate.call( _this , $this , date  );
-						// _this.isSetEndDate = true;
 					}
 				}
 					
@@ -220,16 +220,15 @@
 				if( _$this.hasClass('enddate') ){
 					_$this.removeClass('enddate');
 				}
+				if( _$this.attr( 'isenddate' ) ){
+					_$this.removeAttr('isenddate');
+				}
 				if( !_$this.hasClass('disable') ){
-					console.log( date +" : " + _$this.attr('date') + " : "+myDatepicker.compareDate( date , _$this.attr('date') ))
 					if( myDatepicker.compareDate( date , _$this.attr('date') ) >= 0 ){
 						_$this.removeClass('rangedate');
 					}else{
 						if( _$this.hasClass( 'hover' ) ){
 							_$this.removeClass('hover').addClass('rangedate');
-						}
-						if( _$this.attr( 'isenddate' ) ){
-							_$this.removeAttr('isenddate');
 						}
 					}
 				}
@@ -261,6 +260,17 @@
 		*/
 		'getCurrnetDay' : function(){
 			return new Date().getDate();
+		},
+
+		/*
+		* 得到本地今天时间
+		* @return { Number } 天数 1-31
+		*/
+		'getLocalTodayDate' : function(){
+			var _y = myDatepicker.getCurrnetYear(),
+				_m = myDatepicker.getCurrnetMonth(),
+				_d = myDatepicker.getCurrnetDay();
+			return _y + "-" + ( _m < 10 ? '0'+_m : _m ) + "-" + ( _d < 10 ? '0'+_d : _d );
 		},
 
 		/*
@@ -304,10 +314,10 @@
 				_y = _today.getFullYear(),
 				_m = _today.getMonth()+1,
 				_d = _today.getDate();
+			console.log(_y+" "+_m+" "+_d)
 		   if( _y === y && _m === m && _d === d ){
 		   		return 0;
-		   }
-		   if( (_y < y) || ( _y === y && _m < m ) || ( (_y === y) && (_m === m) && (_d < d) ) ){
+		   }else if( (_y < y) || ( _y === y && _m < m ) || ( (_y === y) && (_m === m) && (_d < d) ) ){
 		   		return 1;
 		   }else{
 		   		return -1;
@@ -327,8 +337,7 @@
 				ndate = ndate.split('-');
 			if( odate[0] === ndate[0] && odate[1] === ndate[1] && odate[2] === ndate[2] ){
 		   		return 0;
-		    }
-		    if( (odate[0] < ndate[0]) || ( odate[0] === ndate[0] && odate[1] < ndate[1] ) || ( (odate[0] === ndate[0]) && (odate[1] === ndate[1]) && (odate[2] < ndate[2]) ) ){
+		    }else if( (odate[0] < ndate[0]) || ( odate[0] === ndate[0] && odate[1] < ndate[1] ) || ( (odate[0] === ndate[0]) && (odate[1] === ndate[1]) && (odate[2] < ndate[2]) ) ){
 		   		return 1;
 		    }else{
 		   		return -1;
@@ -390,6 +399,29 @@
 					}
 				}
 			});
+		},
+
+		/*
+		* reset one datepicker with startdate
+		* #startDate { string } 日期
+		* 
+		*/
+		'resetDateWithEndDate' : function( ){
+			var _this = this;
+			$(this.datepickerWrap_datepList).find('td').each(function(){
+				var _$this = $(this) , _date = _$this.attr('date');
+				if( _$this.hasClass( 'startdate' ) ){
+					return ;
+				}
+				if( _date != undefined ){
+					console.log( _this.localTodayDate +" " +_date+" "+myDatepicker.compareDate( _this.localTodayDate , _date ) )
+					if( myDatepicker.compareDate( _this.localTodayDate , _date ) >= 0 ){
+						if( _$this.hasClass( 'disable' ) ){
+							_$this.removeClass( 'disable' );
+						}
+					}
+				}
+			})
 		},
 
 		/*
