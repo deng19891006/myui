@@ -34,8 +34,8 @@
 		//封装this对象
 		this.firstClick = false;
 		this._o_ = options ;
-		this.inited = false;
-		this.isSetEndDate = false;
+		this.inited = false; 		//判断是否第一次加载
+		this.isSetEndDate = false;  //标志是否设置过结束日历
 
 		var _this = this;
 
@@ -81,7 +81,7 @@
 
 				var $this = $(this),
 					date = $this.attr('date');
-
+					_this.preventMouseout = true; 
 				if( !$this.hasClass('disable') && date !== undefined ){
 					myDatepicker.close.call( _this );
 					$( _this.currentTrigger ).val( date );
@@ -90,10 +90,12 @@
 						myDatepicker.setStartDate.call( _this , $this , date  );
 					}else{
 						myDatepicker.setEndDate.call( _this , $this , date  );
+						// _this.isSetEndDate = true;
 					}
 				}
 					
 			}).on('mouseover','td',function(){
+				_this.preventMouseout = false ;
 				if( _this.dateType === 'start' ){
 					return;
 				}
@@ -106,14 +108,10 @@
 				myDatepicker.beforeSetRangeDate.call( _this , date );
 
 			}).on('mouseout','td',function(){
-				if( _this.dateType === 'start' ){
-					return;
-				}
-
 				var $this = $(this),
 					date = $this.attr('date');
-				if( $this.hasClass('disable') || $this.hasClass('startdate') ){
-					return; 
+				if( _this.preventMouseout || _this.dateType === 'start' || $this.hasClass('disable') || $this.hasClass('startdate')){
+					return;
 				}
 				if( $this.attr('isenddate') == undefined && $this.attr('isenddate') !== 'yes'){
 					$this.removeClass('enddate');
@@ -217,19 +215,23 @@
 		*设置endDate
 		*/
 		'setEndDate' : function( ele , date ){
-			$(this.datepickerWrap_datepList).find('td.enddate').removeClass('enddate');
-			$(this.datepickerWrap_datepList).find('td.hover').removeClass('hover').addClass('rangedate');
 			$(this.datepickerWrap_datepList).find('td').each(function(){
 				var _$this = $(this);
-				if( _$this.hasClass( 'enddate' ) ){
+				if( _$this.hasClass('enddate') ){
 					_$this.removeClass('enddate');
 				}
-
-				if( _$this.hasClass( 'hover' ) ){
-					_$this.removeClass('hover').addClass('rangedate');
-				}
-				if( _$this.attr( 'isenddate' ) ){
-					_$this.removeAttr('isenddate');
+				if( !_$this.hasClass('disable') ){
+					console.log( date +" : " + _$this.attr('date') + " : "+myDatepicker.compareDate( date , _$this.attr('date') ))
+					if( myDatepicker.compareDate( date , _$this.attr('date') ) >= 0 ){
+						_$this.removeClass('rangedate');
+					}else{
+						if( _$this.hasClass( 'hover' ) ){
+							_$this.removeClass('hover').addClass('rangedate');
+						}
+						if( _$this.attr( 'isenddate' ) ){
+							_$this.removeAttr('isenddate');
+						}
+					}
 				}
 			})
 			ele.addClass('enddate');
@@ -387,7 +389,6 @@
 						}
 					}
 				}
-				
 			});
 		},
 
@@ -396,24 +397,19 @@
 		*/
 		'beforeSetRangeDate' : function( date ){
 			var _this = this;
-			if( _this.isSetEndDate ){
-
-			}else{
-				$(_this.datepickerWrap_datepList).find('td').each(function(){
-					var _$this = $(this);
-					if( _$this.attr('date') === date ){
-						return false;
+			$(_this.datepickerWrap_datepList).find('td').each(function(){
+				var _$this = $(this);
+				if( _$this.attr('date') === date ){
+					return false;
+				}
+				if( !_$this.hasClass('disable') && !_$this.hasClass('startdate') ){
+					if( !_$this.hasClass('hover') ){
+						_$this.addClass('hover');
+					}else{
+						_$this.removeClass('hover');
 					}
-					if( !_$this.hasClass('disable') && !_$this.hasClass('startdate') ){
-						if( !_$this.hasClass('hover') ){
-							_$this.addClass('hover');
-						}else{
-							_$this.removeClass('hover');
-						}
-					}
-				});
-			}
-			
+				}
+			});
 		},
 
 		/*

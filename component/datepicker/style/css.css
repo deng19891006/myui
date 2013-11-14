@@ -148,7 +148,7 @@
 }
 
 .myui-datepicker .datepicker_list .list table .hover a{
-	background: #bbddf4;
+	background: #bbddf4!important;
 	color: #fff!important;
 }
 
@@ -158,7 +158,7 @@
 }
 
 .myui-datepicker .datepicker_list .list table .enddate a{
-	background: #E2AD44;
+	background: #E2AD44!important;
 	color: #fff!important;
 }
 
