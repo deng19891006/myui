@@ -1,0 +1,183 @@
+/* datepicker */
+
+.myui-datepicker-wraper{
+}
+
+.myui-datepicker{ 
+	border:1px solid #ccc; 
+	padding: 5px 30px 10px 30px; 
+	background: #fefefe;
+	position: relative; 
+	display: inline-block; 
+	*display: inline; 
+	*zoom:1;
+}
+
+.myui-datepicker .prev-btn , .myui-datepicker .next-btn{
+	position: absolute;
+	width: 20px;
+	height: 50px;
+	top:50%;
+	margin-top: -25px;
+	border:1px solid #ddd;
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+
+.myui-datepicker .prev-btn:hover:before {
+	opacity: 1;
+}
+
+.myui-datepicker .next-btn:hover:before {
+	opacity: 1;
+}
+
+.myui-datepicker .prev-btn-disable:hover:before {
+	opacity: 0.6;
+}
+
+.myui-datepicker .prev-btn-disable:hover:before {
+	opacity: 0.6;
+}
+
+.myui-datepicker .prev-btn:before , .myui-datepicker .next-btn:before{
+	content: '';
+	height: 0px;
+	width: 0px;
+	display: block;;
+	font-size: 0px;
+	border-radius: 3px;
+	opacity: 0.6;
+	-webkit-transition: all 0.2s ease-in-out 
+}
+
+.myui-datepicker .prev-btn:before{
+	margin:10px -11px;
+	border-width: 14px 12px 14px 14px ;
+	border-style: solid;
+	border-color:transparent #5792DC transparent transparent;
+}
+
+.myui-datepicker .next-btn:before{
+	margin:10px 5px;
+	border-width: 14px 14px 14px 12px ;
+	border-style: solid;
+	border-color:transparent transparent transparent #5792DC;
+}
+
+
+.myui-datepicker .prev-btn{
+	left: 9px;
+}
+
+.myui-datepicker .next-btn{
+	right: 9px;
+}
+
+.myui-datepicker .prev-btn-disable:before{
+	border-color:transparent #ccc transparent transparent ;
+}
+
+.myui-datepicker .datepicker_list{
+}
+
+.myui-datepicker .datepicker_list .list{
+	display: inline-block;
+	*zoom:1;
+	*display: inline;
+	padding: 0 10px;
+}
+
+.myui-datepicker .datepicker_list .list h4{
+	font-weight: 300;
+	text-align: center;
+	border-bottom: 1px solid #ccc;
+	line-height: 25px
+}
+
+.myui-datepicker .datepicker_list .list table{
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+.myui-datepicker .datepicker_list .list table th{
+	
+}
+
+.myui-datepicker .datepicker_list .list table td{
+	border:1px solid #ccc;
+	text-align: center;
+	height: 24px;
+	width: 25px;
+	padding: 0;
+}
+
+.myui-datepicker .datepicker_list .list table a,
+.myui-datepicker .datepicker_list .list table a:visited{
+	display: block;
+	width: 100%;
+	height: 100%;
+	line-height: 24px;
+	cursor: pointer;
+	color: #222;
+	text-decoration: none;
+}
+
+.myui-datepicker .datepicker_list .list table a:hover{
+	background: #5792DC;
+	color: #fff;
+}
+
+.myui-datepicker .datepicker_list .list table .disable a{
+	background: #fff;
+	color: #ddd!important;
+}
+
+.myui-datepicker .datepicker_list .list table .disable a:hover{
+	background: #fff;
+	color: #ddd!important;
+}
+
+.myui-datepicker .datepicker_list .list table .startdate a{
+	background: #5792DC;
+	color: #fff!important;
+}
+
+
+
+.myui-datepicker .datepicker_list .list table .clicked a{
+	background: #5792DC;
+	color: #fff!important;
+}
+
+.myui-datepicker .datepicker_list .list table .hover a{
+	background: #bbddf4!important;
+	color: #fff!important;
+}
+
+.myui-datepicker .datepicker_list .list table .rangedate a{
+	background: #D9F2FF;
+	color: #000!important;
+}
+
+.myui-datepicker .datepicker_list .list table .rangedate a:hover{
+	background: #5792DC;
+	color: #fff!important;
+}
+
+.myui-datepicker .datepicker_list .list table .enddate a{
+	background: #E2AD44!important;
+	color: #fff!important;
+}
+
+.myui-datepicker .datepicker_list .list table .enddate a:hover{
+	background: #5792DC;
+	color: #fff!important;
+}
+
+.myui-datepicker .datepicker_list .list table .mouseover a{
+	background: #E2AD44;
+	color: #fff!important;
+}
+
