@@ -7,7 +7,6 @@
  	'use strict';
 
  	var $ = require("jquery"),
-		util = require("util"),
 		win = window,
 		docu = win.document;
 
