@@ -84,29 +84,35 @@
 					date = $this.attr('date');
 					_this.preventMouseout = true; 
 				if( !$this.hasClass('disable') && date !== undefined ){
+
 					myDatepicker.close.call( _this );
+
 					$( _this.currentTrigger ).val( date );
-					//when trigger is startDte input
+
 					if( _this.dateType == 'start' ){
 						myDatepicker.setStartDate.call( _this , $this , date  );
+						_this.isSetEndDate = false ;
 					}else{
 						myDatepicker.setEndDate.call( _this , $this , date  );
+						_this.isSetEndDate = true ;
 					}
 				}
 					
 			}).on('mouseover','td',function(){
 				_this.preventMouseout = false ;
-				if( _this.dateType === 'start' ){
-					return;
-				}
 				var $this = $(this),
 					date = $this.attr('date');
-				if( $this.hasClass('disable') || $this.hasClass('startdate') ){
-					return; 
+				if( _this.dateType === 'start' ){
+					if( !_this.isSetEndDate ){
+						return;
+					}
+				}else if ( _this.dateType === 'end' ){
+					if( $this.hasClass('disable') || $this.hasClass('startdate') ){
+						return; 
+					}
+					$this.addClass('enddate');
+					myDatepicker.beforeSetRangeDate.call( _this , date );
 				}
-				$this.addClass('enddate');
-				myDatepicker.beforeSetRangeDate.call( _this , date );
-
 			}).on('mouseout','td',function(){
 				var $this = $(this),
 					date = $this.attr('date');
@@ -206,9 +212,74 @@
 		*设置startDate
 		*/
 		'setStartDate' : function( ele , date ){
-			$(this.datepickerWrap_datepList).find('td.startdate').removeClass('startdate');
+			var _this  = this , _tempEnd , _tempStart;
+			if( !_this.isSetEndDate ){
+				$(_this.datepickerWrap_datepList).find('td.startdate').removeClass('startdate');
+			}else{
+				_tempEnd = myDatepicker.compareDate( _this.endDateStr , date );
+				_tempStart = myDatepicker.compareDate( _this.startDateStr , date );
+				//设置开始日期等于当前设置好的开始日期，返回
+				if( _tempStart === 0 ){
+					return ;
+				}
+				// //设置开始日期等于当前设置好的结束日期，返回
+				// else if( _tempStart === 0 ){
+				// 	return ;
+				// }
+				//设置开始日期大于或等于当前设置好的结束日期
+				else if( _tempEnd >= 0 ){ 
+					$(_this.datepickerWrap_datepList).find('td').each(function(){
+						var _$this = $(this) , _date = _$this.attr('date');
+						if( !_$this.hasClass('disable') ){
+							if( _date === date ){
+								if( _$this.hasClass('enddate') ){
+									_$this.removeClass('enddate').addClass('startdate');
+								}
+								return false;
+							}else{
+								if( _$this.hasClass('rangedate') || _$this.hasClass('startdate') ){
+									_$this.removeAttr('class');
+								}else{
+									_$this.removeAttr('class');
+									_$this.removeAttr('isenddate');
+								}
+							}
+						}
+					})
+				}
+				//设置开始日期小于当前设置好的开始日期
+				else if( _tempStart < 0 ){
+					$(_this.datepickerWrap_datepList).find('td').each(function(){
+						var _$this = $(this) , _date = _$this.attr('date');
+						if( !_$this.hasClass('disable') ){
+							if( _date === _this.startDateStr ){
+								_$this.removeClass('startdate').addClass('rangedate');
+								return false;
+							} 
+							if( myDatepicker.compareDate( date , _date ) > 0 ){
+								_$this.addClass( 'rangedate' );
+							}
+						}
+					})
+				}
+				//设置开始时间大于设置好的初始时间 && 小于设置好的结束时间
+				else if( _tempStart > 0  && _tempEnd < 0){
+					$(_this.datepickerWrap_datepList).find('td').each(function(){
+						var _$this = $(this) , _date = _$this.attr('date');
+						if( !_$this.hasClass('disable') ){
+							if( _date === date ){
+								_$this.removeClass('rangedate').addClass('startdate');
+								return false;
+							} 
+							if( _$this.hasClass('rangedate') || _$this.hasClass('startdate') ){
+									_$this.removeAttr('class');
+							}
+						}
+					})
+				}
+			}
 			ele.addClass('startdate');
-			this.startDateStr = date;
+			_this.startDateStr = date;
 		},
 
 		/*
@@ -223,6 +294,7 @@
 				if( _$this.attr( 'isenddate' ) ){
 					_$this.removeAttr('isenddate');
 				}
+
 				if( !_$this.hasClass('disable') ){
 					if( myDatepicker.compareDate( date , _$this.attr('date') ) >= 0 ){
 						_$this.removeClass('rangedate');
@@ -314,7 +386,7 @@
 				_y = _today.getFullYear(),
 				_m = _today.getMonth()+1,
 				_d = _today.getDate();
-			console.log(_y+" "+_m+" "+_d)
+			// console.log(_y+" "+_m+" "+_d)
 		   if( _y === y && _m === m && _d === d ){
 		   		return 0;
 		   }else if( (_y < y) || ( _y === y && _m < m ) || ( (_y === y) && (_m === m) && (_d < d) ) ){
@@ -414,7 +486,6 @@
 					return ;
 				}
 				if( _date != undefined ){
-					console.log( _this.localTodayDate +" " +_date+" "+myDatepicker.compareDate( _this.localTodayDate , _date ) )
 					if( myDatepicker.compareDate( _this.localTodayDate , _date ) >= 0 ){
 						if( _$this.hasClass( 'disable' ) ){
 							_$this.removeClass( 'disable' );
