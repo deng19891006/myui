@@ -36,6 +36,8 @@
 		this.inited = false; 		//判断是否第一次加载
 		this.isSetEndDate = false;  //标志是否设置过结束日历
 		this.localTodayDate = myDatepicker.getLocalTodayDate();
+		this.startDateStr = this.localTodayDate;
+
 		var _this = this;
 
 		$(options.startDateTrigger).on('click',function(){
@@ -90,7 +92,7 @@
 
 					if( _this.dateType == 'start' ){
 						myDatepicker.setStartDate.call( _this , $this , date  );
-						_this.isSetEndDate = false ;
+						// _this.isSetEndDate = false ;
 					}else{
 						myDatepicker.setEndDate.call( _this , $this , date  );
 						_this.isSetEndDate = true ;
