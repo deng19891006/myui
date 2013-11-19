@@ -37,6 +37,8 @@
 		this.isSetEndDate = false;  //标志是否设置过结束日历
 		this.localTodayDate = myDatepicker.getLocalTodayDate();
 		this.startDateStr = this.localTodayDate;
+		this.endDateStr = myDatepicker.getLocalTomorrowDate();
+		this.dateCache = {};
 
 		var _this = this;
 
@@ -92,7 +94,6 @@
 
 					if( _this.dateType == 'start' ){
 						myDatepicker.setStartDate.call( _this , $this , date  );
-						// _this.isSetEndDate = false ;
 					}else{
 						myDatepicker.setEndDate.call( _this , $this , date  );
 						_this.isSetEndDate = true ;
@@ -179,9 +180,9 @@
 
 				for(var i = 0 ; i < this._o_.monthNum; i++){
 					if( currMonth+i > 12){
-						this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( currYear+1 , currMonth+i-12 ) );
+						this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth.call( _this , currYear+1 , currMonth+i-12 ) );
 					}else{
-						this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth( currYear , currMonth+i ) );
+						this.datepickerWrap_datepList.appendChild( myDatepicker.fitOneMonth.call( _this , currYear , currMonth+i ) );
 					}
 				}
 				docu.body.appendChild(this.datepickerWrap);
@@ -276,6 +277,7 @@
 				}
 			}
 			ele.addClass('startdate');
+			_this.isSetStartDate = true ;
 			_this.startDateStr = date;
 		},
 
@@ -311,24 +313,33 @@
 		* 得到当前年份
 		* @return { Number } 年份
 		*/
-		'getCurrnetYear' : function(){
-			return new Date().getFullYear();
+		'getCurrnetYear' : function( date ){
+			if( date == undefined ){
+				date = new Date()
+			}
+			return date.getFullYear();
 		},
 
 		/*
 		* 得到当前月份
 		* @return { Number } 月份 1-12
 		*/
-		'getCurrnetMonth' : function(){
-			return new Date().getMonth()+1;
+		'getCurrnetMonth' : function( date ){
+			if( date == undefined ){
+				date = new Date()
+			}
+			return date.getMonth()+1;
 		},
 
 		/*
 		* 得到当前月份
 		* @return { Number } 天数 1-31
 		*/
-		'getCurrnetDay' : function(){
-			return new Date().getDate();
+		'getCurrnetDay' : function( date ){
+			if( date == undefined ){
+				date = new Date()
+			}
+			return date.getDate();
 		},
 
 		/*
@@ -340,6 +351,20 @@
 				_m = myDatepicker.getCurrnetMonth(),
 				_d = myDatepicker.getCurrnetDay();
 			return _y + "-" + ( _m < 10 ? '0'+_m : _m ) + "-" + ( _d < 10 ? '0'+_d : _d );
+		},
+
+		/*
+		* 得到本地今天时间
+		* @return { Number } 天数 1-31
+		*/
+		'getLocalTomorrowDate' : function(){
+			 var _date = new Date();
+			 	 _date.setTime(_date.getTime()+3600*24*1000)
+			 // console.log(_date.getTime());
+			 var _y = myDatepicker.getCurrnetYear( _date ),
+				 _m = myDatepicker.getCurrnetMonth( _date ),
+				 _d = myDatepicker.getCurrnetDay( _date );
+			 return _y + "-" + ( _m < 10 ? '0'+_m : _m ) + "-" + ( _d < 10 ? '0'+_d : _d );
 		},
 
 		/*
@@ -520,7 +545,44 @@
 		* @return  { Object DOMElement } 本月份的DOM结构
 		*/
 		'fitOneMonth' : function( y , m , d){
-			var result = {} , _days , _firstDay , _thisMonth , _monthTableDom , _trNums , _trflag , _tdflag , i , j , _day = 1;
+			// var result = {} , _days , _firstDay , _thisMonth , _monthTableDom , _trNums , _trflag , _tdflag , i , j , _day = 1;
+			// _days = myDatepicker.getDaysNumForMonth( y , m );
+			// _firstDay = myDatepicker.getFirstDayForEverymonth( y , m );
+		 	// _trNums = Math.ceil( ( _days - 7 + _firstDay ) / 7 ) + 1;
+			// _thisMonth = ['<h4>'+y+'年'+m+'月</h4><table><thead><tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr></thead><tbody>'];
+			// _monthTableDom = docu.createElement('div');
+			// _monthTableDom.className = 'list';
+
+			// for( i = 1 ; i <= _trNums ; i++){
+			// 	_trflag = '<tr>'
+			// 	for( j = 1 ; j <= 7 ; j++ ){
+			// 		if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
+			// 			_trflag += '<td class="disable"></td>'; 
+			// 		}else{
+			// 			if(	myDatepicker.compareToToday( y , m , _day ) === -1 ){
+			// 				_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>';
+			// 			}else if( myDatepicker.compareToToday( y , m , _day ) === 0 ){
+			// 				_trflag += '<td class="startdate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">今天</a></td>';
+			// 				_trflag += '<td class="enddate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+(_day+1):_day+1))+'><a href="javascript:;">'+(_day+1)+'</a></td>';
+			// 				_day++;
+			// 				j++;
+			// 			}else{
+			// 				_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
+			// 			}
+			// 		    _day++; 
+			// 		}
+			// 	}
+			// 	_trflag += '</tr>';
+			// 	_thisMonth.push(_trflag);
+			// }
+
+			// _thisMonth.push('</tbody></table>');
+			// _monthTableDom.innerHTML = _thisMonth.join('');
+			// return _monthTableDom;
+
+			var result = {} , _days , _firstDay , _thisMonth , _monthTableDom , _trNums , _trflag , _tdflag , 
+				i , j , _day = 1 , _startDateStr , _endDateStr ,
+				_this = this;
 			_days = myDatepicker.getDaysNumForMonth( y , m );
 			_firstDay = myDatepicker.getFirstDayForEverymonth( y , m );
 		    _trNums = Math.ceil( ( _days - 7 + _firstDay ) / 7 ) + 1;
@@ -528,29 +590,144 @@
 			_monthTableDom = docu.createElement('div');
 			_monthTableDom.className = 'list';
 
-			for( i = 1 ; i <= _trNums ; i++){
-				_trflag = '<tr>'
-				for( j = 1 ; j <= 7 ; j++ ){
-					if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
-						_trflag += '<td class="disable"></td>'; 
-					}else{
-						if(	myDatepicker.compareToToday( y , m , _day ) === -1 ){
-							_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>';
-						}else if( myDatepicker.compareToToday( y , m , _day ) === 0 ){
-							_trflag += '<td class="startdate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">今天</a></td>';
-							_trflag += '<td class="enddate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+(_day+1):_day+1))+'><a href="javascript:;">'+(_day+1)+'</a></td>';
-							_day++;
-							j++;
+			var endDateCompareWithFirstDay = myDatepicker.compareDate( this.endDateStr , y+'-'+m+'-'+1),
+				startDateCompareWidthLastDay = myDatepicker.compareDate( this.startDateStr , y+'-'+m+'-'+_days),
+				endDateCompareWithLastDay = myDatepicker.compareDate( this.endDateStr , y+'-'+m+'-'+_days),
+				startDateCompareWidthFirstDay = myDatepicker.compareDate( this.startDateStr , y+'-'+m+'-'+1);
+			//第一次显示日历
+			if( !_this.isSetStartDate ){
+				for( i = 1 ; i <= _trNums ; i++){
+					_trflag = '<tr>';
+					for( j = 1 ; j <= 7 ; j++ ){
+						if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
+							_trflag += '<td class="disable"></td>'; 
 						}else{
-							_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
+							if(	myDatepicker.compareToToday( y , m , _day ) === -1 ){
+								_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>';
+							}else if( myDatepicker.compareToToday( y , m , _day ) === 0 ){
+								_trflag += '<td class="startdate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">今天</a></td>';
+								_trflag += '<td class="enddate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+(_day+1):_day+1))+'><a href="javascript:;">'+(_day+1)+'</a></td>';
+								_day++;
+								j++;
+							}else{
+								_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
+							}
+						    _day++; 
 						}
-					    _day++; 
 					}
+					_trflag += '</tr>';
+					_thisMonth.push(_trflag);
 				}
-				_trflag += '</tr>';
-				_thisMonth.push(_trflag);
+			//最后一天小于设置好的endDate
+			}else if( startDateCompareWidthLastDay < 0){
+				//console.log('最后一天小于设置好的endDate')
+				for( i = 1 ; i <= _trNums ; i++){
+					_trflag = '<tr>';
+					for( j = 1 ; j <= 7 ; j++ ){
+						if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
+							_trflag += '<td class="disable"></td>'; 
+						}else{
+							_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
+						    _day++; 
+						}
+					}
+					_trflag += '</tr>';
+					_thisMonth.push(_trflag);
+				}
+			//本月第一天大于设置好的startDate && 最后一天小于设置好的endDate
+			}else if( _this.isSetStartDate && endDateCompareWithLastDay < 0 && startDateCompareWidthFirstDay > 0 ){
+				//console.log('本月第一天大于设置好的startDate && 最后一天小于设置好的endDate')
+				for( i = 1 ; i <= _trNums ; i++){
+					_trflag = '<tr>';
+					for( j = 1 ; j <= 7 ; j++ ){
+						if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
+							_trflag += '<td class="disable"></td>'; 
+						}else{
+							_trflag += '<td class="rangedate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
+						    _day++; 
+						}
+					}
+					_trflag += '</tr>';
+					_thisMonth.push(_trflag);
+				}
+			//本月第一天大于设置好的startDate && 最后一天大于或等于设置好的endDate
+			}else if( _this.isSetStartDate && endDateCompareWithLastDay >= 0 && startDateCompareWidthFirstDay > 0 ){
+				//console.log('本月第一天大于设置好的startDate && 最后一天大于或等于设置好的endDate')
+				var _temp = false;
+				for( i = 1 ; i <= _trNums ; i++){
+					_trflag = '<tr>';
+					for( j = 1 ; j <= 7 ; j++ ){
+						if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
+							_trflag += '<td class="disable"></td>'; 
+						}else{
+							 if( _temp ){
+								_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
+							 }else if( myDatepicker.compareDate( _this.endDateStr , y+"-"+m+"-"+_day) === 0 ){
+								_trflag += '<td class="enddate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
+							 	_temp = true;
+							 }else{
+								_trflag += '<td class="rangedate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
+							 }
+						    _day++; 
+						}
+					}
+					_trflag += '</tr>';
+					_thisMonth.push(_trflag);
+				}
 			}
-
+			//本月第一天小于或等于设置好的startDate && 最后一天小于设置好的endDate
+			else if( _this.isSetStartDate && endDateCompareWithLastDay < 0 && startDateCompareWidthFirstDay <= 0 ){
+				//console.log('本月第一天小于设置好的startDate && 最后一天小于设置好的endDate')
+				var _temp = false;
+				for( i = 1 ; i <= _trNums ; i++){
+					_trflag = '<tr>';
+					for( j = 1 ; j <= 7 ; j++ ){
+						if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
+							_trflag += '<td class="disable"></td>'; 
+						}else{
+							 if( _temp ){
+								_trflag += '<td class="rangedate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
+							 }else if( myDatepicker.compareDate( _this.startDateStr , y+"-"+m+"-"+_day) === 0 ){
+								_trflag += '<td class="startdate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
+							 	_temp = true;
+							 }else{
+								_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
+							 }
+						    _day++; 
+						}
+					}
+					_trflag += '</tr>';
+					_thisMonth.push(_trflag);
+				}
+			}
+			//本月第一天小于或等于设置好的startDate && 最后一天大于或等于设置好的endDate
+			else if( _this.isSetStartDate && endDateCompareWithLastDay >=0 && startDateCompareWidthFirstDay <= 0 ){
+				//console.log('本月第一天小于或等于设置好的startDate && 最后一天大于或等于设置好的endDate')
+				var _temp = false;
+				for( i = 1 ; i <= _trNums ; i++){
+					_trflag = '<tr>';
+					for( j = 1 ; j <= 7 ; j++ ){
+						if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
+							_trflag += '<td class="disable"></td>'; 
+						}else{
+							 if( myDatepicker.compareDate( _this.startDateStr , y+"-"+m+"-"+_day) === 0 ){
+								_trflag += '<td class="startdate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
+							 	_temp = true;
+							 }else  if( myDatepicker.compareDate( _this.endDateStr , y+"-"+m+"-"+_day) === 0 ){
+								_trflag += '<td class="enddate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
+							 	_temp = false;
+							 }else if( _temp ){
+								_trflag += '<td  class="rangedate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
+							 }else{
+								_trflag += '<td  class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
+							 }
+						    _day++; 
+						}
+					}
+					_trflag += '</tr>';
+					_thisMonth.push(_trflag);
+				}
+			}
 			_thisMonth.push('</tbody></table>');
 			_monthTableDom.innerHTML = _thisMonth.join('');
 			return _monthTableDom;
@@ -572,7 +749,7 @@
 					var _y = farRightMonth === 12 ? farRightYear+1 : farRightYear,
 						_m = farRightMonth === 12 ? 1 : farRightMonth+1,
 						_oldDate = this.datepickerWrap_datepList.firstChild;
-					newMonthDom = myDatepicker.fitOneMonth( _y, _m );
+					newMonthDom = myDatepicker.fitOneMonth.call( this , _y , _m );
 					this.datepickerWrap_datepList.appendChild( newMonthDom );
 					this.datepickerWrap_datepList.removeChild(_oldDate);
 					myDatepicker.resetDateObj.call( this , dire)
@@ -581,7 +758,7 @@
 					var _y = farLeftMonth === 1 ? farLeftYear-1 : farLeftYear,
 						_m = farLeftMonth === 1 ? 12 : farLeftMonth-1,
 						_oldDate = this.datepickerWrap_datepList.lastChild;
-					newMonthDom = myDatepicker.fitOneMonth( _y, _m );
+					newMonthDom = myDatepicker.fitOneMonth.call( this , _y , _m );
 					this.datepickerWrap_datepList.insertBefore( newMonthDom , this.datepickerWrap_datepList.firstChild );
 					this.datepickerWrap_datepList.removeChild(_oldDate);
 					myDatepicker.resetDateObj.call( this , dire);
