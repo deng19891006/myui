@@ -31,7 +31,7 @@
 		options.endDateTrigger = docu.getElementById(options.endDateElement);
 
 		//封装this对象
-		this.firstClick = false;
+		this.isSetStartDate = false;
 		this._o_ = options ;
 		this.inited = false; 		//判断是否第一次加载
 		this.isSetEndDate = false;  //标志是否设置过结束日历
@@ -594,8 +594,9 @@
 				startDateCompareWidthLastDay = myDatepicker.compareDate( this.startDateStr , y+'-'+m+'-'+_days),
 				endDateCompareWithLastDay = myDatepicker.compareDate( this.endDateStr , y+'-'+m+'-'+_days),
 				startDateCompareWidthFirstDay = myDatepicker.compareDate( this.startDateStr , y+'-'+m+'-'+1);
+
 			//第一次显示日历
-			if( !_this.isSetStartDate ){
+			if( !_this.isSetStartDate /*|| startDateCompareWidthLastDay < 0 || endDateCompareWithFirstDay > 0*/ ){
 				for( i = 1 ; i <= _trNums ; i++){
 					_trflag = '<tr>';
 					for( j = 1 ; j <= 7 ; j++ ){
@@ -618,8 +619,8 @@
 					_trflag += '</tr>';
 					_thisMonth.push(_trflag);
 				}
-			//最后一天小于设置好的endDate
-			}else if( startDateCompareWidthLastDay < 0){
+			//最后一天小于设置好的startDate
+			}else if( _this.isSetStartDate && startDateCompareWidthLastDay < 0){
 				//console.log('最后一天小于设置好的endDate')
 				for( i = 1 ; i <= _trNums ; i++){
 					_trflag = '<tr>';
@@ -627,7 +628,23 @@
 						if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
 							_trflag += '<td class="disable"></td>'; 
 						}else{
-							_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
+							_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
+						    _day++; 
+						}
+					}
+					_trflag += '</tr>';
+					_thisMonth.push(_trflag);
+				}
+			//第一天大于设置好的endDate
+			}else if( _this.isSetStartDate && endDateCompareWithFirstDay > 0){
+				//console.log('最后一天小于设置好的endDate')
+				for( i = 1 ; i <= _trNums ; i++){
+					_trflag = '<tr>';
+					for( j = 1 ; j <= 7 ; j++ ){
+						if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
+							_trflag += '<td class="disable"></td>'; 
+						}else{
+							_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
 						    _day++; 
 						}
 					}
@@ -636,7 +653,7 @@
 				}
 			//本月第一天大于设置好的startDate && 最后一天小于设置好的endDate
 			}else if( _this.isSetStartDate && endDateCompareWithLastDay < 0 && startDateCompareWidthFirstDay > 0 ){
-				//console.log('本月第一天大于设置好的startDate && 最后一天小于设置好的endDate')
+				console.log('本月第一天大于设置好的startDate && 最后一天小于设置好的endDate')
 				for( i = 1 ; i <= _trNums ; i++){
 					_trflag = '<tr>';
 					for( j = 1 ; j <= 7 ; j++ ){
@@ -652,7 +669,7 @@
 				}
 			//本月第一天大于设置好的startDate && 最后一天大于或等于设置好的endDate
 			}else if( _this.isSetStartDate && endDateCompareWithLastDay >= 0 && startDateCompareWidthFirstDay > 0 ){
-				//console.log('本月第一天大于设置好的startDate && 最后一天大于或等于设置好的endDate')
+				console.log('本月第一天大于设置好的startDate && 最后一天大于或等于设置好的endDate')
 				var _temp = false;
 				for( i = 1 ; i <= _trNums ; i++){
 					_trflag = '<tr>';
@@ -677,7 +694,7 @@
 			}
 			//本月第一天小于或等于设置好的startDate && 最后一天小于设置好的endDate
 			else if( _this.isSetStartDate && endDateCompareWithLastDay < 0 && startDateCompareWidthFirstDay <= 0 ){
-				//console.log('本月第一天小于设置好的startDate && 最后一天小于设置好的endDate')
+				console.log('本月第一天小于设置好的startDate && 最后一天小于设置好的endDate')
 				var _temp = false;
 				for( i = 1 ; i <= _trNums ; i++){
 					_trflag = '<tr>';
@@ -702,7 +719,7 @@
 			}
 			//本月第一天小于或等于设置好的startDate && 最后一天大于或等于设置好的endDate
 			else if( _this.isSetStartDate && endDateCompareWithLastDay >=0 && startDateCompareWidthFirstDay <= 0 ){
-				//console.log('本月第一天小于或等于设置好的startDate && 最后一天大于或等于设置好的endDate')
+				console.log('本月第一天小于或等于设置好的startDate && 最后一天大于或等于设置好的endDate')
 				var _temp = false;
 				for( i = 1 ; i <= _trNums ; i++){
 					_trflag = '<tr>';
