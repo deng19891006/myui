@@ -548,41 +548,6 @@
 		* @return  { Object DOMElement } 本月份的DOM结构
 		*/
 		'fitOneMonth' : function( y , m , d){
-			// var result = {} , _days , _firstDay , _thisMonth , _monthTableDom , _trNums , _trflag , _tdflag , i , j , _day = 1;
-			// _days = myDatepicker.getDaysNumForMonth( y , m );
-			// _firstDay = myDatepicker.getFirstDayForEverymonth( y , m );
-		 	// _trNums = Math.ceil( ( _days - 7 + _firstDay ) / 7 ) + 1;
-			// _thisMonth = ['<h4>'+y+'年'+m+'月</h4><table><thead><tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr></thead><tbody>'];
-			// _monthTableDom = docu.createElement('div');
-			// _monthTableDom.className = 'list';
-
-			// for( i = 1 ; i <= _trNums ; i++){
-			// 	_trflag = '<tr>'
-			// 	for( j = 1 ; j <= 7 ; j++ ){
-			// 		if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
-			// 			_trflag += '<td class="disable"></td>'; 
-			// 		}else{
-			// 			if(	myDatepicker.compareToToday( y , m , _day ) === -1 ){
-			// 				_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>';
-			// 			}else if( myDatepicker.compareToToday( y , m , _day ) === 0 ){
-			// 				_trflag += '<td class="startdate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">今天</a></td>';
-			// 				_trflag += '<td class="enddate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+(_day+1):_day+1))+'><a href="javascript:;">'+(_day+1)+'</a></td>';
-			// 				_day++;
-			// 				j++;
-			// 			}else{
-			// 				_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
-			// 			}
-			// 		    _day++; 
-			// 		}
-			// 	}
-			// 	_trflag += '</tr>';
-			// 	_thisMonth.push(_trflag);
-			// }
-
-			// _thisMonth.push('</tbody></table>');
-			// _monthTableDom.innerHTML = _thisMonth.join('');
-			// return _monthTableDom;
-
 			var result = {} , _days , _firstDay , _thisMonth , _monthTableDom , _trNums , _trflag , _tdflag , 
 				i , j , _day = 1 , _startDateStr , _endDateStr ,
 				_this = this;
