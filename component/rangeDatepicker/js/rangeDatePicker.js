@@ -38,7 +38,6 @@
 		this.localTodayDate = myDatepicker.getLocalTodayDate();
 		this.startDateStr = this.localTodayDate;
 		this.endDateStr = myDatepicker.getLocalTomorrowDate();
-		this.dateCache = {};
 
 		var _this = this;
 
@@ -96,7 +95,6 @@
 						myDatepicker.setStartDate.call( _this , $this , date  );
 					}else{
 						myDatepicker.setEndDate.call( _this , $this , date  );
-						_this.isSetEndDate = true ;
 					}
 				}
 					
@@ -307,6 +305,7 @@
 			ele.addClass('enddate');
 			ele.attr('isenddate','yes')
 			this.endDateStr = date;
+			this.isSetEndDate = true ;
 		},
 
 		/*
@@ -429,6 +428,10 @@
 		'compareDate' : function ( odate , ndate){
 			var odate = odate.split('-'),
 				ndate = ndate.split('-');
+			odate[1] = odate[1] < 10 ? parseInt(odate[1]) : odate[1];
+			odate[2] = odate[2] < 10 ? parseInt(odate[2]) : odate[2];
+			ndate[1] = ndate[1] < 10 ? parseInt(ndate[1]) : ndate[1];
+			ndate[2] = ndate[2] < 10 ? parseInt(ndate[2]) : ndate[2];
 			if( odate[0] === ndate[0] && odate[1] === ndate[1] && odate[2] === ndate[2] ){
 		   		return 0;
 		    }else if( (odate[0] < ndate[0]) || ( odate[0] === ndate[0] && odate[1] < ndate[1] ) || ( (odate[0] === ndate[0]) && (odate[1] === ndate[1]) && (odate[2] < ndate[2]) ) ){
@@ -595,23 +598,62 @@
 				endDateCompareWithLastDay = myDatepicker.compareDate( this.endDateStr , y+'-'+m+'-'+_days),
 				startDateCompareWidthFirstDay = myDatepicker.compareDate( this.startDateStr , y+'-'+m+'-'+1);
 
-			//第一次显示日历
-			if( !_this.isSetStartDate /*|| startDateCompareWidthLastDay < 0 || endDateCompareWithFirstDay > 0*/ ){
+			// console.log('_this.isSetStartDate : ' + _this.isSetStartDate;
+			// console.log('_this.isSetEndDate : ' + _this.isSetEndDate);
+			console.log('_this.startdate : ' + _this.startDateStr);
+			console.log('_this.enddate : ' + _this.endDateStr);
+
+			//第一次显示日历 ， 并没选择startDate 
+			if( !_this.isSetEndDate ){
 				for( i = 1 ; i <= _trNums ; i++){
 					_trflag = '<tr>';
 					for( j = 1 ; j <= 7 ; j++ ){
 						if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
 							_trflag += '<td class="disable"></td>'; 
 						}else{
-							if(	myDatepicker.compareToToday( y , m , _day ) === -1 ){
-								_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>';
-							}else if( myDatepicker.compareToToday( y , m , _day ) === 0 ){
-								_trflag += '<td class="startdate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">今天</a></td>';
-								_trflag += '<td class="enddate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+(_day+1):_day+1))+'><a href="javascript:;">'+(_day+1)+'</a></td>';
-								_day++;
-								j++;
+							if( !_this.isSetStartDate ){
+								if(	myDatepicker.compareToToday( y , m , _day ) === -1 ){
+									_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>';
+								}else if( myDatepicker.compareToToday( y , m , _day ) === 0 ){
+									_trflag += '<td class="startdate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">今天</a></td>';
+									_trflag += '<td class="enddate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+(_day+1):_day+1))+'><a href="javascript:;">'+(_day+1)+'</a></td>';
+									_day++;
+									j++;
+								}else{
+									_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
+								}
+							    _day++;
 							}else{
-								_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
+								if(	myDatepicker.compareToToday( y , m , _day ) === -1 ){
+									_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>';
+								}else if( myDatepicker.compareDate( _this.startDateStr , y+"-"+m+"-"+_day) === 0 ){
+									_trflag += '<td class="startdate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">今天</a></td>';
+								}else if( myDatepicker.compareDate( _this.endDateStr , y+"-"+m+"-"+_day) === 0 ){
+									_trflag += '<td class="enddate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">今天</a></td>';
+								}else{
+									_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
+								}
+							    _day++;
+							}
+							 
+						}
+					}
+					_trflag += '</tr>';
+					_thisMonth.push(_trflag);
+				}
+			//最后一天小于设置好的startDate
+			}else if( startDateCompareWidthLastDay < 0){
+				console.log('最后一天小于设置好的startDate')
+				for( i = 1 ; i <= _trNums ; i++){
+					_trflag = '<tr>';
+					for( j = 1 ; j <= 7 ; j++ ){
+						if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
+							_trflag += '<td class="disable"></td>'; 
+						}else{
+							if( _this.dateType === 'end' ){
+								_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
+							}else{
+								_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
 							}
 						    _day++; 
 						}
@@ -619,25 +661,10 @@
 					_trflag += '</tr>';
 					_thisMonth.push(_trflag);
 				}
-			//最后一天小于设置好的startDate
-			}else if( _this.isSetStartDate && startDateCompareWidthLastDay < 0){
-				//console.log('最后一天小于设置好的endDate')
-				for( i = 1 ; i <= _trNums ; i++){
-					_trflag = '<tr>';
-					for( j = 1 ; j <= 7 ; j++ ){
-						if( i === 1 && j <= _firstDay || i === _trNums && _day > _days){
-							_trflag += '<td class="disable"></td>'; 
-						}else{
-							_trflag += '<td date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
-						    _day++; 
-						}
-					}
-					_trflag += '</tr>';
-					_thisMonth.push(_trflag);
-				}
 			//第一天大于设置好的endDate
-			}else if( _this.isSetStartDate && endDateCompareWithFirstDay > 0){
-				//console.log('最后一天小于设置好的endDate')
+			}else if(  endDateCompareWithFirstDay > 0){
+				console.log(this.endDateStr +" "+y+'-'+m+'-'+1+" "+endDateCompareWithFirstDay)
+				console.log('第一天大于设置好的endDate')
 				for( i = 1 ; i <= _trNums ; i++){
 					_trflag = '<tr>';
 					for( j = 1 ; j <= 7 ; j++ ){
@@ -678,7 +705,7 @@
 							_trflag += '<td class="disable"></td>'; 
 						}else{
 							 if( _temp ){
-								_trflag += '<td class="disable" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
+								_trflag += '<td  date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+(_day)+'</a></td>'; 
 							 }else if( myDatepicker.compareDate( _this.endDateStr , y+"-"+m+"-"+_day) === 0 ){
 								_trflag += '<td class="enddate" date='+(y+'-'+(m<10?"0"+m:m)+'-'+(_day<10?"0"+_day:_day))+'><a href="javascript:;">'+_day+'</a></td>';
 							 	_temp = true;
