@@ -151,14 +151,16 @@
 </div> -->
 
 <script src="../../lib/seajs/sea.js" id="seajsnode"></script>
+<script src="../../rootConfig.js"></script>
+
 <script type="text/javascript">
-	seajs.config({
-		base:"../../lib/",
-		alias: {
-		    'jquery': 'jquery-1.10.1.min.js',
-		    'util': 'util.js'
-		}
-	});
+	// seajs.config({
+	// 	base:"../../lib/",
+	// 	alias: {
+	// 	    'jquery': 'jquery-1.10.1.min.js',
+	// 	    'util': 'util.js'
+	// 	}
+	// });
 	seajs.use(["./js/rangeDatePicker","jquery"],function(datepicker,$){
 		$(function(){
 			 datepicker({
