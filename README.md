@@ -14,6 +14,6 @@ Myui
  - ......
 
 ## 说明
-it is developmenting
+is developmenting
 
 comming soon......
