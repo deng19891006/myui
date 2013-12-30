@@ -1,0 +1,22 @@
+@charset "utf-8";
+.myui-custom-multiple-search{ border:1px solid #CCC; background:#FFF; padding:0; font-size:100%;}
+.myui-custom-multiple-search ul{ margin:0; padding:0}
+.myui-custom-multiple-search ul li{ padding:6px 8px 6px 20px; float:left; margin:5px 0px 5px 5px; line-height:100%; background:#93CBF5;border:1px solid #2CA3DE; color:#333; position:relative; }
+.myui-custom-multiple-search ul li.sin{ padding:6px 8px 6px 8px; }
+.myui-custom-multiple-search ul li p{ white-space:nowrap; margin:0;}
+.myui-custom-multiple-search ul li a,.myui-custom-multiple-search ul li a:visited{ position:absolute; top:5px; left:6px;color:#333; text-decoration:none; font-size:11px; cursor:pointer;}
+.myui-custom-multiple-search ul li a:hover{ color:#F30;}
+.myui-custom-multiple-search ul li.input-wrap{ background:#FFF; border:none; padding:5px 8px 5px 6px; display:table-cell}
+.myui-custom-multiple-search ul li.input-wrap input{ margin:0; padding:0; width:80px;border:0; box-shadow:none; height:16px; line-height:16px; font-size:12px; vertical-align:middle}
+.myui-custom-multiple-search-expend{border:1px solid #CCC; background:#FFF; padding:0; font-size:100%; padding:5px; position:absolute;}
+.myui-custom-multiple-search-expend ul.myui-custom-multiple-search-result{ margin:0; padding:0; max-height:200px; overflow:auto}
+.myui-custom-multiple-search-expend ul.myui-custom-multiple-search-result li.search-result-list{}
+.myui-custom-multiple-search-expend ul.myui-custom-multiple-search-result li.list-disabled{ display:none}
+.myui-custom-multiple-search-expend ul.myui-custom-multiple-search-result li.s-list-disabled{ display:none}
+.myui-custom-multiple-search-expend ul.myui-custom-multiple-search-result li.search-result-list h4{ font-size:13px; margin:3px 0;}
+.myui-custom-multiple-search-expend ul.myui-custom-multiple-search-result li.search-result-list ul.search-result{margin:0; padding:0; font-size:12px; color:#666;}
+.myui-custom-multiple-search-expend ul.myui-custom-multiple-search-result li.search-result-list ul.search-result li.list{ text-indent:20px; line-height:25px;}
+.myui-custom-multiple-search-expend ul.myui-custom-multiple-search-result li.search-result-list ul.search-result li.list:hover{
+background:#33A8E1; color:#FFF; cursor:pointer;}
+.myui-custom-multiple-search-expend ul.myui-custom-multiple-search-result li.search-result-list ul.search-result li.disabled{ display:none;}
+.myui-custom-multiple-search-expend ul.myui-custom-multiple-search-result li.search-result-list ul.search-result li.s-disabled{ display:none}

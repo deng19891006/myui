@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../base/style/base.css">
+	<link rel="stylesheet" href="style/css.css">
+</head>
+<body>
+<div id="multiple_search"></div>
+<script src="../../lib/seajs/sea.js" id="seajsnode"></script>
+<script src="../../rootConfig.js"></script>
+<script type="text/javascript">
+	seajs.use(["./js/fuzzySearchForDropList","jquery"],function(fuzzySearchForDropList,$){
+		$(function(){
+			   new fuzzySearchForDropList({
+			   			element:"multiple_search",
+			   			datasource:"multiple_search.json",
+			   			placeholder:"选择店铺",
+			   			datavalue:[],
+			   			multiple:true,
+			   			listClickCallBack:function(k,v){
+			   				console.log(k+" "+v)
+			   			}
+			   		});
+		})
+	});
+</script>
+</body>
+</html>
