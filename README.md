@@ -12,7 +12,7 @@ Myui
  - fixAbleGrid - 可固定列grid (grid扩展)
  - rangeDatePicker - 自定义可范围选择日历
  - fuzzySelectForDropList - 带模糊搜索的单选或多选下拉列表
- - ......
+ - ...
 
 ## 说明
 is developmenting
