@@ -1,5 +1,5 @@
 /*
-@desc：响应式表格
+@desc：响应式表格.
 @argument:
 	@title 		//表格title
 	@fileds		//表头配置
